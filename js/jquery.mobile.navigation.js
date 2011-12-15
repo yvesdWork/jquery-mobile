@@ -1211,7 +1211,7 @@
 	}
 
 	// The base URL for any given element depends on the page it resides in.
-	function getClosestBaseUrl( ele )
+	$.mobile.getClosestBaseUrl = function( ele )
 	{
 		// Find the closest page and extract out its url.
 		var url = $( ele ).closest( ".ui-page" ).jqmData( "url" ),
