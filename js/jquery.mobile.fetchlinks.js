@@ -2,7 +2,7 @@
 
 $.widget( "mobile.fetchlink", $.mobile.widget, {
 	options: {
-		initSelector: ":jqmData(role='fetchlink')"
+		initSelector: ":jqmData(target)"
 	},
 	_create: function() {
 		
