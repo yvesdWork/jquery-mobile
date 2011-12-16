@@ -5,23 +5,25 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 		initSelector: ":jqmData(target)"
 	},
 	_create: function() {
-		
-
-		$( this.element )
+		var self = $( this.element ),
+			target = self.attr( "href" ) ? self : self.find( "a" ).not( ":jqmData(role='fetchlink')" );
+			
+		target
 		 .click(function() {
 			var el			= $( this ),
 				url		    = el.attr( "href" ),
-				target		= el.data( "target" ),
-				targetEl	= target && $( target ) || el,
-				fragment    = el.data( "fragment" ),
+				target		= self.data( "target" ),
+				targetEl	= target && $( target ) || self,
+				fragment    = self.data( "fragment" ),
 				load		= fragment || ":jqmData(role='page')",
 				threshold	= screen.width > parseInt( el.data( "breakpoint" ) || 0 ),
 				methods		= [ "append", "prepend", "replace", "before", "after" ],
 				method      = "html",
 				url;
-			
+
 			if ( threshold ) {
-				for( var ml = methods.length, i=0; i < ml; i++ ){
+				
+				for( var ml = methods.length, i = 0; i < ml; i++ ){
 					if( el.is( "[data-include='" + methods[ i ] + "']" ) ){
 						method	= methods[ i ];
 					}
@@ -53,7 +55,6 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 
 									 $el.attr( attr, $.mobile.path.parseUrl( url ).directory + oPath );
 								});
-							
 							};
 
 						normalizePath( 'img', 'src' );
@@ -70,7 +71,7 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 								.removeClass('ui-loading-inline')
 								.height('auto');
 						}, 300);
-					});					
+					});
 				}
 			}
 			return false;
