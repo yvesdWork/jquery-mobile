@@ -6,17 +6,17 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 	},
 	_create: function() {
 		var self = $( this.element ),
-			target = self.attr( "href" ) ? self : self.find( "a" ).not( ":jqmData(role='fetchlink')" );
+			target = self.attr( "href" ) ? self : self.find( "a" ).not( ":jqmData(target)" );
 			
 		target
 		 .click(function() {
 			var el			= $( this ),
 				url		    = el.attr( "href" ),
-				target		= self.data( "target" ),
+				target		= self.jqmData( "target" ),
 				targetEl	= target && $( target ) || self,
-				fragment    = self.data( "fragment" ),
+				fragment    = self.jqmData( "fragment" ),
 				load		= fragment || ":jqmData(role='page')",
-				threshold	= screen.width > parseInt( el.data( "breakpoint" ) || 0 ),
+				threshold	= screen.width > parseInt( el.jqmData( "breakpoint" ) || 0 ),
 				methods		= [ "append", "prepend", "replace", "before", "after" ],
 				method      = "html",
 				url;
@@ -24,7 +24,7 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 			if ( threshold ) {
 				
 				for( var ml = methods.length, i = 0; i < ml; i++ ){
-					if( el.is( "[data-method='" + methods[ i ] + "']" ) ){
+					if( el.is( ":jqmData(method='" + methods[ i ] + "')" ) ){
 						method	= methods[ i ];
 					}
 				}
