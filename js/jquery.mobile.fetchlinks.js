@@ -24,7 +24,7 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 			if ( threshold ) {
 				
 				for( var ml = methods.length, i = 0; i < ml; i++ ){
-					if( el.is( "[data-include='" + methods[ i ] + "']" ) ){
+					if( el.is( "[data-method='" + methods[ i ] + "']" ) ){
 						method	= methods[ i ];
 					}
 				}
@@ -37,10 +37,10 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 					
 					targetEl.ajaxStart(function(){
 						var $el = $(this);
-					
+
 						$el
 							.addClass('ui-loading-inline')
-							.trigger('inlineLoader')
+							.trigger('inlineLoader', { method: method })
 							.height( $el.height() );
 					 });
 					
@@ -60,16 +60,20 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 						normalizePath( 'img', 'src' );
 						normalizePath( 'a', 'href');
 						
-						setTimeout(function() {				
-							targetEl[ method ]( responseEl.addClass('fade in') );
-						
+						setTimeout(function() {	
 							responseEl
-								.trigger( "create" )
-								.trigger( "fetchlink", { target : targetEl, data: responseEl });
-								
+								.trigger( "fetchlink", { target : targetEl, data: responseEl })
+								.trigger('create' );
+							
+							targetEl[ method ]( responseEl.addClass('fade in') );
+							
+							$(":jqmData(role='page')").trigger( "create" );
+
+																
 							targetEl
 								.removeClass('ui-loading-inline')
 								.height('auto');
+								
 						}, 300);
 					});
 				}
@@ -80,12 +84,14 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 	}
 });
 
-$( document ).bind( "inlineLoader", function( e ){	
-	$( e.target ).children().removeClass('fade in').addClass('fade out');
-	
-	setTimeout(function() {
-		$( e.target ).html( "<div class='ui-loader-inline fade in'><span class='ui-icon ui-icon-loading spin'></span></div>" );
-	}, 300);
+$( document ).bind( "inlineLoader", function( e, ui ){	
+		if( ui.method === "html" ) {
+			$( e.target ).children().removeClass('fade in').addClass('fade out');
+			
+			setTimeout(function() {
+				$( e.target ).html( "<div class='ui-loader-inline fade in'><span class='ui-icon ui-icon-loading spin'></span></div>" );
+			}, 300);
+		}
 });
 
 //auto self-init widgets
