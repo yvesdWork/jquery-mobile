@@ -60,20 +60,13 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 						normalizePath( 'img', 'src' );
 						normalizePath( 'a', 'href');
 						
-						setTimeout(function() {	
-							responseEl
-								.trigger( "fetchlink", { target : targetEl, data: responseEl })
-								.trigger('create' );
-							
+						setTimeout(function() {																
 							targetEl[ method ]( responseEl.addClass('fade in') );
-							
-							$(":jqmData(role='page')").trigger( "create" );
 
-																
 							targetEl
+								.listview( "refresh" ) // This should work with trigger( "refresh" ).
 								.removeClass('ui-loading-inline')
 								.height('auto');
-								
 						}, 300);
 					});
 				}
