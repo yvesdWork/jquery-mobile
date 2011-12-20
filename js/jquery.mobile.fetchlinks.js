@@ -8,8 +8,7 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 		var self = $( this.element ),
 			target = self.attr( "href" ) ? self : self.find( "a" ).not( ":jqmData(target)" );
 			
-		target
-		 .click(function() {
+		 target.bind("click", function(e) {			 
 			var el			= $( this ),
 				url		    = el.attr( "href" ),
 				target		= self.jqmData( "target" ),
@@ -60,13 +59,18 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 						normalizePath( 'img', 'src' );
 						normalizePath( 'a', 'href');
 						
-						setTimeout(function() {																
+						setTimeout(function() {		
 							targetEl[ method ]( responseEl.addClass('fade in') );
 
+							targetEl.filter( ':jqmData(role="listview")' ).length && targetEl.listview( "refresh" );
+
 							targetEl
-								.listview( "refresh" ) // This should work with trigger( "refresh" ).
+								.trigger( "create" )
 								.removeClass('ui-loading-inline')
 								.height('auto');
+								
+							console.log("Plugin fired and completed");
+							
 						}, 300);
 					});
 				}
@@ -79,16 +83,17 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 
 $( document ).bind( "inlineLoader", function( e, ui ){	
 		if( ui.method === "html" ) {
-			$( e.target ).children().removeClass('fade in').addClass('fade out');
+			//$( e.target ).children().removeClass('fade in').addClass('fade out');
 			
 			setTimeout(function() {
-				$( e.target ).html( "<div class='ui-loader-inline fade in'><span class='ui-icon ui-icon-loading spin'></span></div>" );
+				//$( e.target ).html( "<div class='ui-loader-inline fade in'><span class='ui-icon ui-icon-loading spin'></span></div>" );
 			}, 300);
 		}
 });
 
 //auto self-init widgets
 $( document ).bind( "pagecreate create", function( e ){
+	console.log("Create called");
 	$( $.mobile.fetchlink.prototype.options.initSelector, e.target ).fetchlink();
 });
 
