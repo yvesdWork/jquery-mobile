@@ -65,12 +65,11 @@ $.widget( "mobile.fetchlink", $.mobile.widget, {
 							targetEl.filter( ':jqmData(role="listview")' ).length && targetEl.listview( "refresh" );
 
 							targetEl
-								.trigger( "create" )
 								.removeClass('ui-loading-inline')
 								.height('auto');
-								
-							console.log("Plugin fired and completed");
 							
+							responseEl.trigger( "create" );
+					
 						}, 300);
 					});
 				}
@@ -93,7 +92,6 @@ $( document ).bind( "inlineLoader", function( e, ui ){
 
 //auto self-init widgets
 $( document ).bind( "pagecreate create", function( e ){
-	console.log("Create called");
 	$( $.mobile.fetchlink.prototype.options.initSelector, e.target ).fetchlink();
 });
 

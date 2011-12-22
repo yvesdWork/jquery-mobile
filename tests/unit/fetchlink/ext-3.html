@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Mobile Event Test Suite</title>
+
+	<script src="../../../js/jquery.js"></script>
+	<script src="../jquery.setNameSpace.js"></script>
+	<script src="../../../js/"></script>
+	<script src="../../jquery.testHelper.js"></script>
+	<link rel="stylesheet"  href="../../../css/themes/default/" />
+	<link rel="stylesheet" href="../../../external/qunit.css"/>
+	<script src="../../../external/qunit.js"></script>
+
+</head>
+<body>
+
+	<div data-nstest-role="page" id="fetchlink-remote-page">
+		<div data-nstest-role="header">
+			<h1>Header</h1>
+		</div>
+		<div data-nstest-role="content">
+			
+			<a href="ext-4.html" class="foo" data-nstest-role="button">Quote 1</a>
+			
+			<label for="slider2">Flip switch:</label>
+			<select name="slider2" id="slider2" data-nstest-role="slider">
+				<option value="off">Off</option>
+				<option value="on">On</option>
+			</select>
+
+			<label for="test-slider">Slider:</label>
+		 	<input type="range" name="test-slider" id="test-slider" value="0" min="0" max="100"  />
+			
+		</div>
+		<div data-nstest-role="footer">
+			<h1>Footer</h1>
+		</div>
+	</div>
+
+</body>
+</html>

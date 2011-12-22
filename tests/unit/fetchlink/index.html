@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Mobile Event Test Suite</title>
+
+	<script src="../../../js/jquery.js"></script>
+	<script src="../jquery.setNameSpace.js"></script>
+	<script src="../../../js/"></script>
+	<script src="../../jquery.testHelper.js"></script>
+	<link rel="stylesheet"  href="../../../css/themes/default/" />
+	<link rel="stylesheet" href="../../../external/qunit.css"/>
+	<script src="../../../external/qunit.js"></script>
+
+	<script src="fetchlink_core.js"></script>
+
+	<script src="../swarminject.js"></script>
+
+</head>
+<body>
+  
+<h1 id="qunit-header">jQuery Mobile Event Test Suite</h1>
+<h2 id="qunit-banner"></h2>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests">
+</ol>
+
+<div id="qunit-fixture"></div>
+
+<div data-nstest-role="page" id="fetchlink-test1">
+	
+	<div data-nstest-role="content">
+		<ul data-nstest-target=".loadinto" data-nstest-fragment=".bq">	
+			<li><a href="ext-1.html" class="foo">Quote 1</a></li>
+			<li><a href="ext-2.html" class="bar">Quote 2</a></li>
+		</ul>
+		
+		<a href="ext-3.html" class="baz" data-nstest-target=".loadinto">External Page</a>
+
+		<div class="loadinto">
+		
+		</div>
+	
+	</div>
+
+</div>
+
+
+
+</body>
+</html>
