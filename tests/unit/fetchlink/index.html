@@ -31,12 +31,14 @@
 <div data-nstest-role="page" id="fetchlink-test1">
 	
 	<div data-nstest-role="content">
+		
+		<a href="ext-1.html" class="standalone" data-nstest-fragment=".bq" data-nstest-target=".loadinto">Quote 1</a>
+		
 		<ul data-nstest-target=".loadinto" data-nstest-fragment=".bq">	
-			<li><a href="ext-1.html" class="foo">Quote 1</a></li>
 			<li><a href="ext-2.html" class="bar">Quote 2</a></li>
 		</ul>
 		
-		<a href="ext-3.html" class="baz" data-nstest-target=".loadinto">External Page</a>
+		<a href="ext-3.html" class="remote-page" data-nstest-target=".loadinto">External Page</a>
 
 		<div class="loadinto">
 		
