@@ -45,6 +45,17 @@ module.exports = function( grunt ) {
 			test_paths = paths_with_jquery;
 		}
 
+		var filtered_paths = [];
+		test_paths.forEach( function( file_path ) {
+			// if no test path is defined or if the path matches that specified in the env
+			// add it to the config
+			if( !process.env.TEST_PATH || file_path.indexOf(process.env.TEST_PATH) >= 0 ) {
+				filtered_paths.push( file_path );
+			}
+		});
+
+		test_paths = filtered_paths;
+
 		// if this test is not a dependency log pages
 		if( this.name.indexOf('config:test:page') > -1 ) {
 			test_paths.forEach(function( path ) {
