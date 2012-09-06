@@ -265,7 +265,7 @@
 
 				stop();
 
-				timeout = setTimeout( start, 2000);
+				timeout = setTimeout( start, 5000);
 
 				$(document).one( "pagechange", function() {
 					clearTimeout( timeout );
