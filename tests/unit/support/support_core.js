@@ -18,7 +18,7 @@ $.testHelper.excludeFileProtocol(function(){
 	asyncTest( "detects functionality from basic affirmative properties and attributes", function(){
 		// TODO expose properties for less brittle tests
 		$.extend(window, {
-			WebKitTransitionEvent: true,
+			WebKitTransitionEvent: true
 		});
 
 		window.history.pushState = function(){};
