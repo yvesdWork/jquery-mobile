@@ -4,17 +4,7 @@
 (function($){
 	var siteDirectory = location.pathname.replace(/[^/]+$/, "");
 
-	module('jquery.mobile.navigation.js', {
-		setup: function(){
-			if ( location.hash ) {
-				stop();
-				$(document).one("pagechange", function() {
-					start();
-				} );
-				location.hash = "";
-			}
-		}
-	});
+	module( "jquery.mobile.navigation.js" );
 
 	test( "path.get method is working properly", function(){
 		window.location.hash = "foo";
