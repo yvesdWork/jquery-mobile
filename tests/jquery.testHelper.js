@@ -73,9 +73,11 @@
 
 		reloads: {},
 
-		reloadModule: function(libName){
+		reloadModule: function(libName, baseUrl){
 			var deferred = $.Deferred(),
 				context;
+
+			baseUrl = baseUrl || "../../../js/";
 
 			// where a module loader isn't defined use the old way
 			if( !window.require ) {
@@ -92,15 +94,15 @@
 
 			//Clear internal cache of module inside of require
 			context = require.s.contexts._;
-			delete context.defined[libName];
-			delete context.specified[libName];
-			delete context.loaded[libName];
-			delete context.urlFetched[require.toUrl(libName + '.js')];
+			context.defined[libName] = undefined;
+			if( context.specified ) context.specified[libName] = undefined;
+			if( context.loaded ) context.loaded[libName] = undefined;
+			if( context.urlFetched ) context.urlFetched[require.toUrl(libName + '.js')] = undefined;
 
 			require(
 				{
-					baseUrl: "../../../js"
-				}, [libName],
+					baseUrl: baseUrl
+				}, [ baseUrl + libName + '.js?' + this.reloads[libName].count++ ],
 				function() {
 					deferred.resolve();
 				}

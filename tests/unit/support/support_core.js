@@ -21,9 +21,9 @@ $.testHelper.excludeFileProtocol(function(){
 			WebKitTransitionEvent: true
 		});
 
+
 		window.history.pushState = function(){};
 		window.history.replaceState = function(){};
-
 		$.mobile.media = function(){ return true; };
 
 		$.testHelper.reloadModule( moduleName ).done( function() {
