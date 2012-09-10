@@ -1,7 +1,16 @@
 /*
  * mobile navigation unit tests
  */
+
 (function($){
+  if( !$.support.cssTransitions ) {
+		test( "transitions not supported", function() {
+			ok( true );
+		});
+
+		return;
+	}
+
 	var perspective,
 			transitioning = "ui-mobile-viewport-transitioning",
 			animationCompleteFn = $.fn.animationComplete,
@@ -61,8 +70,6 @@
 
 	module('jquery.mobile.navigation.js', {
 		setup: function(){
-
-
 			// disable this option so we can test transitions regardless of window width
 			disableMaxTransWidth();
 
@@ -81,28 +88,20 @@
 
 			resetQueues();
 			clearUrlHistory();
-
-      if ( location.hash !== "#harmless-default-page" ) {
-				stop();
-
-				$(document).one("pagechange", function() {
-					start();
-				} );
-
-				location.hash = "#harmless-default-page";
-			}
 		},
 
 		teardown: function(){
 			// unmock animation complete
 			$.fn.animationComplete = animationCompleteFn;
 			enableMaxTransWidth();
+
+			$.testHelper.navReset();
 		}
 	});
 
 	/*
 	NOTES:
-	Our default transition handler now has either one or two animationComplete calls - two if there are two pages in play (from and to)
+ 	Our default transition handler now has either one or two animationComplete calls - two if there are two pages in play (from and to)
 	To is required, so each async function must call start() onToComplete, not onFromComplete.
 	*/
 	asyncTest( "changePage applies perspective class to mobile viewport for flip", function(){
