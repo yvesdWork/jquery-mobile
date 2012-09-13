@@ -188,7 +188,7 @@
 				setTimeout( function() {
 					window.scrollTo( 0, 300 );
 					deepEqual( $(window).scrollTop(), 300, "scrollTop is 300 after setting it" );
-				}, 300);
+				}, 1000);
 
 				// wait for the scrollstop to fire and for the scroll to be
 				// recorded 100 ms afterward (see changes made to handle hash
@@ -206,7 +206,7 @@
 					deepEqual( $(window).scrollTop(), 300, "scrollTop is 300 after returning to the page" );
 					$( "body" ).height( "" );
 					start();
-				}, 300 );
+				}, 1000 );
 			}
 		]);
 	});
