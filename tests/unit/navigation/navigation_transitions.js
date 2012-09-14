@@ -15,6 +15,8 @@
 			transitioning = "ui-mobile-viewport-transitioning",
 			animationCompleteFn = $.fn.animationComplete,
 			defaultMaxTrans = $.mobile.maxTransitionWidth,
+			home = $.mobile.path.parseUrl(location.pathname).directory,
+			homeWithSearch = home + location.search,
 
 			//TODO centralize class names?
 			transitionTypes = "in out fade slide flip reverse pop",
@@ -95,7 +97,7 @@
 			$.fn.animationComplete = animationCompleteFn;
 			enableMaxTransWidth();
 
-			$.testHelper.navReset();
+			$.testHelper.navReset( homeWithSearch );
 		}
 	});
 

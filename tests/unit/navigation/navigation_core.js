@@ -253,7 +253,6 @@
 			}], 300);
 	});
 
-
 	asyncTest( "anchors with no href attribute will do nothing when clicked", function(){
 		var fired = false;
 
