@@ -60,8 +60,6 @@
 
 	asyncTest( "external page is removed from the DOM after pagehide", function(){
 		$.testHelper.pageSequence([
-			navigateTestRoot,
-
 			function(){
 				$.mobile.changePage( "external.html" );
 			},
