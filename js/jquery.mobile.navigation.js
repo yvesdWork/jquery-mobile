@@ -449,7 +449,9 @@ define( [
 	}
 
 	// Save the last scroll distance per page, before it is hidden
-	var setLastScrollEnabled = true,
+	var hashChangeDeferred = $.Deferred(),
+		pageChangeDeferred = $.Deferred(),
+		setLastScrollEnabled = true,
 		setLastScroll, delayedSetLastScroll;
 
 	setLastScroll = function() {
@@ -483,29 +485,23 @@ define( [
 	// the browser might have changed the position because of the hashchange
 	$window.bind( $.support.pushState ? "popstate" : "hashchange", function() {
 		setLastScrollEnabled = false;
-	});
-
-	// handle initial hashchange from chrome :(
-	$window.one( $.support.pushState ? "popstate" : "hashchange", function() {
-		setLastScrollEnabled = true;
+		hashChangeDeferred.resolve();
 	});
 
 	// wait until the mobile page container has been determined to bind to pagechange
 	$window.one( "pagecontainercreate", function() {
 		// once the page has changed, re-enable the scroll recording
 		$.mobile.pageContainer.bind( "pagechange", function() {
-
-			setLastScrollEnabled = true;
-
-			// remove any binding that previously existed on the get scroll
-			// which may or may not be different than the scroll element determined for
-			// this page previously
-			$window.unbind( "scrollstop", delayedSetLastScroll );
-
-			// determine and bind to the current scoll element which may be the window
-			// or in the case of touch overflow the element with touch overflow
-			$window.bind( "scrollstop", delayedSetLastScroll );
+			pageChangeDeferred.resolve();
 		});
+	});
+
+	$.when( hashChangeDeferred, pageChangeDeferred ).done(function rebindDeferreds() {
+		hashChangeDeferred = $.Deferred();
+		pageChangeDeferred = $.Deferred();
+
+		$.when( hashChangeDeferred, pageChangeDeferred ).done( rebindDeferreds );
+		setLastScrollEnabled = true;
 	});
 
 	// bind to scrollstop for the first page as "pagechange" won't be fired in that case
