@@ -3,19 +3,19 @@
  */
 
 (function($){
-	var resetHash;
+	var home = $.mobile.path.parseUrl(location.pathname).directory + location.search;
 
-	resetHash = function(timeout){
-		$.testHelper.openPage( location.hash.indexOf("#default") >= 0 ? "#" : "#default" );
-	};
+	module( "select cached tests", {
+		teardown: function() {
+			$.testHelper.navReset( home );
+		}
+	});
 
 	// https://github.com/jquery/jquery-mobile/issues/2181
 	asyncTest( "dialog sized select should alter the value of its parent select", function(){
 		var selectButton, value;
 
 		$.testHelper.pageSequence([
-			resetHash,
-
 			function(){
 				$.mobile.changePage( "cached.html" );
 			},
@@ -47,8 +47,6 @@
 		expect( 2 );
 
 		$.testHelper.pageSequence([
-			resetHash,
-
 			function(){
 				$.mobile.changePage( "cached.html" );
 			},
@@ -73,8 +71,6 @@
 		expect( 3 );
 
 		$.testHelper.pageSequence([
-			resetHash,
-
 			function(){
 				$.mobile.changePage( "cached-dom-cache-true.html" );
 			},
@@ -103,8 +99,6 @@
 	asyncTest( "menupage is removed when the parent page is removed", function(){
 		var dialogCount = $(":jqmData(role='dialog')").length;
 		$.testHelper.pageSequence([
-			resetHash,
-
 			function(){
 				$.mobile.changePage( "uncached-dom-cached-false.html" );
 			},
