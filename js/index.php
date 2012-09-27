@@ -40,6 +40,7 @@ $files = array(
 	'widgets/navbar.js',
 	'widgets/listview.js',
 	'widgets/listview.filter.js',
+	'widgets/listview.reveal.js',
 	'widgets/listview.autodividers.js',
 	'jquery.mobile.nojs.js',
 	'widgets/forms/checkboxradio.js',

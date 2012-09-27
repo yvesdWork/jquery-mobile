@@ -1,0 +1,219 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>jQuery Mobile Docs - Listview: Reveal</title> 
+	<link rel="stylesheet"  href="../../css/themes/default/jquery.mobile.css" />  
+	<link rel="stylesheet" href="../_assets/css/jqm-docs.css"/>
+
+	<script src="../../js/jquery.js"></script>
+	<script src="../../docs/_assets/js/jqm-docs.js"></script>
+	<script src="../../js/"></script>
+
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior" id="album-list">
+
+		<div data-role="header" data-theme="f">
+		<h1>Listview: Reveal</h1>
+		<a href="../../" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a>
+		<a href="../nav.html" data-icon="search" data-iconpos="notext" data-rel="dialog" data-transition="fade">Search</a>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<div class="content-primary">	
+
+		<style>
+			/* demo styles for the disclosable sample content */
+			.ui-li-reveal-disclose {
+				padding-top: 1.5em;
+			}
+			.ui-li-reveal-disclose h3 {
+				padding-left: 2em;
+				float: left
+			}
+			.ui-li-reveal-disclose .ui-btn {
+				float: right;
+				margin-right: 2.5em;
+			}
+		</style>
+
+		<p>With the reveal extension, you can allow a list item to reveal content on swipe or hover/click by adding a <code>data-reveal="true"</code> to the list item and placing revealable content inside that list item in an element with <code>data-reveal-disclose="true"</code></p>
+
+		<p>With this in place, touch users will be able to swipe a list item to reveal content underneath it. Mouse users will see a portion of the row reveal on hover, and can click the revealed portion to see more. </p>
+
+
+<p>For example:</p>
+
+<pre><code>
+&lt;li <strong>data-reveal=&quot;true&quot;</strong>&gt;&lt;a href=&quot;index.html&quot;&gt;
+  &lt;h3&gt;Stephen Weber&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;You&#x27;ve been invited to a meeting at Filament Group in Boston, MA&lt;/strong&gt;&lt;/p&gt;
+
+  <strong>&lt;form data-reveal-disclose=&quot;true&quot; action=&quot;#&quot;&gt;
+    &lt;h3&gt;Delete item?&lt;/h3&gt;
+    &lt;input type=&quot;submit&quot; data-iconpos=&quot;notext&quot; data-icon=&quot;delete&quot; data-theme=&quot;c&quot; data-shadow=&quot;false&quot;&gt;
+  &lt;/form&gt;</strong>
+&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>Note that the type of element that has the <code>data-reveal-disclose="true"</code> attribute does not matter.</p>
+
+
+		<ul data-role="listview">
+			<li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">2</span></li>
+			<li data-reveal="true"><a href="index.html">
+				
+					<h3>Stephen Weber</h3>
+					<p><strong>You've been invited to a meeting at Filament Group in Boston, MA</strong></p>
+					<p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+					<p class="ui-li-aside"><strong>6:24</strong>PM</p>
+				
+					<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+			</a></li>
+			<li data-reveal="true"><a href="index.html">
+				
+				<h3>jQuery Team</h3>
+				<p><strong>Boston Conference Planning</strong></p>
+				<p>In preparation for the upcoming conference in Boston, we need to start gathering a list of sponsors and speakers.</p>
+				<p class="ui-li-aside"><strong>9:18</strong>AM</p>
+
+
+				<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+				
+			</a></li>
+			<li data-role="list-divider">Thursday, October 7, 2010 <span class="ui-li-count">1</span></li>
+			<li data-reveal="true"><a href="index.html">
+				<h3>Avery Walker</h3>
+				<p><strong>Re: Dinner Tonight</strong></p>
+				<p>Sure, let's plan on meeting at Highland Kitchen at 8:00 tonight. Can't wait! </p>
+				<p class="ui-li-aside"><strong>4:48</strong>PM</p>
+
+				<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+			</a></li>
+			<li data-role="list-divider">Wednesday, October 6, 2010 <span class="ui-li-count">3</span></li>
+			<li data-reveal="true"><a href="index.html">
+				<h3>Amazon.com</h3>
+				<p><strong>4-for-3 Books for Kids</strong></p>
+				<p>As someone who has purchased children's books from our 4-for-3 Store, you may be interested in these featured books.</p>
+				<p class="ui-li-aside"><strong>12:47</strong>PM</p>
+
+				<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+			</a></li>
+			<li data-reveal="true"><a href="index.html">
+				<h3>Mike Taylor</h3>
+				<p><strong>Re: This weekend in Maine</strong></p>
+				<p>Hey little buddy, sorry but I can't make it up to vacationland this weekend. Maybe next weekend?</p>
+				<p class="ui-li-aside"><strong>6:24</strong>AM</p>
+
+				<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+			</a></li>
+			<li data-reveal="true"><a href="index.html">
+				<h3>Redfin</h3>
+				<p><strong>Redfin listing updates for today</strong></p>
+				<p>There are 3 updates for the home on your watchlist: 1 updated MLS listing and 2 homes under contract.</p>
+				<p class="ui-li-aside"><strong>5:52</strong>AM</p>
+
+				<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+			</a></li>
+				<li data-role="list-divider">Tuesday, October 5, 2010 <span class="ui-li-count">3</span></li>
+				<li data-reveal="true"><a href="index.html">
+					<h3>Angela Smith</h3>
+					<p><strong>Link Request</strong></p>
+					<p>My name is Angela Smith, SEO Consultant. I've greatly enjoyed looking through your site and I was wondering if you'd be interested in providing a link.</p>
+					<p class="ui-li-aside"><strong>6:24</strong>AM</p>
+
+					<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+				</a></li>
+				<li data-reveal="true"><a href="index.html">
+					<h3>Mike Taylor</h3>
+					<p><strong>This weekend in Maine</strong></p>
+					<p>Sounds good, let me check into our plans.</p>
+					<p class="ui-li-aside"><strong>6:24</strong>AM</p>
+
+					<form data-reveal-disclose="true" action="#">
+						<h3>Delete item?</h3>
+						<input type="submit" data-iconpos="notext" data-icon="delete" data-theme="c" data-shadow="false">
+					</form>
+				</a></li>
+		</ul>
+		
+
+		
+		</div><!--/content-primary -->		
+
+		<div class="content-secondary">
+
+			<div data-role="collapsible" data-collapsed="true" data-theme="b" data-content-theme="d">
+
+					<h3>More in this section</h3>
+
+					<ul data-role="listview" data-theme="c" data-dividertheme="d">
+
+						<li data-role="list-divider">Listviews</li>
+						<li><a href="docs-lists.html">List basics &amp; API</a></li>
+						<li><a href="lists-ul.html">Basic linked list</a></li>
+						<li><a href="lists-nested.html">Nested list</a></li>
+						<li><a href="lists-ol.html">Numbered list</a></li>
+
+						<li data-theme="a"><a href="lists-split.html">Split button list</a></li>	
+						<li><a href="lists-divider.html">List dividers</a></li>
+						<li><a href="lists-autodividers.html">Autodividers</a></li>
+						<li><a href="lists-count.html">Count bubble</a></li>
+						<li><a href="lists-thumbnails.html">Thumbnails</a></li>
+						<li><a href="lists-icons.html">Icons</a></li>
+						<li><a href="lists-formatting.html">Content formatting</a></li>
+						<li><a href="lists-inset.html">Inset styled lists</a></li>
+						
+						<li><a href="lists-search.html">Search filter bar</a></li>
+						<li><a href="lists-search-inset.html">Inset search filter bar</a></li>
+						<li><a href="lists-search-with-dividers.html">Search filter bar with dividers</a></li>
+						<li><a href="lists-search-filtertext.html">Search filter hidden data</a></li>
+
+						<li><a href="lists-readonly.html">Read-only lists</a></li>
+						<li><a href="lists-readonly-inset.html">Read-only inset lists</a></li>
+						<li><a href="lists-forms.html">Lists with forms</a></li>
+						<li><a href="lists-forms-inset.html">Inset lists with forms</a></li>
+
+						<li><a href="lists-collapsible.html">Collapsible lists</a></li>
+						
+						<li><a href="lists-performance.html">List performance test</a></li>
+						<li><a href="lists-themes.html">Theming lists</a></li>
+
+					</ul>
+			</div>
+		</div>				
+		
+	</div><!-- /content -->
+
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<p>&copy; 2012 jQuery Foundation and other contributors</p>
+	</div>
+
+	</div><!-- /page -->
+
+	</body>
+	</html>

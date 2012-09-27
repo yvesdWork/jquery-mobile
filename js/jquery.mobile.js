@@ -18,6 +18,7 @@ define([
 	'./widgets/listview',
 	'./widgets/listview.filter',
 	'./widgets/listview.autodividers',
+	'./widgets/listview.reveal',
 	'./jquery.mobile.nojs',
 	'./widgets/forms/checkboxradio',
 	'./widgets/forms/button',
