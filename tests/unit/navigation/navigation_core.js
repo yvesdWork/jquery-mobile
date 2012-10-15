@@ -2,6 +2,9 @@
  * mobile navigation unit tests
  */
 (function($){
+	
+
+
 	// TODO move siteDirectory over to the nav path helper
 	var changePageFn = $.mobile.changePage,
 		originalTitle = document.title,
@@ -27,6 +30,8 @@
 			$.mobile.linkBindingEnabled = originalLinkBinding;
 		}
 	});
+
+
 
 	asyncTest( "window.history.back() from external to internal page", function(){
 
@@ -1341,4 +1346,41 @@
 
 		$.mobile.changePage( requestPath );
 	});
+
+
+
+	// test path/image loading
+	window.imageError = function(e){
+
+		$( "#imagetest" ).trigger( "imgerror" );
+	};
+
+	window.imageLoad = function(e){
+
+		$( "#imagetest" ).trigger( "imgload" );
+	};
+
+	asyncTest( "image path is working properly", function(){
+
+		expect( 1 );
+
+		$( document ).on( "imgload imgerror", function( e ){
+
+			ok( e.type === "imgload", "the event is imgload" );
+
+			start();
+
+		});
+
+	
+		$.mobile.changePage( "imagetest/imagetest.html" );
+
+	});
+
+
+
+
+
+
+
 })(jQuery);
