@@ -47,19 +47,7 @@ define( [ "jquery",
 			transition: "none",
 			positionTo: "origin",
 			tolerance: null,
-			initSelector: ":jqmData(role='popup')",
-			closeLinkSelector: "a:jqmData(rel='back')",
-			closeLinkEvents: "click.popup",
-			navigateEvents: "navigate.popup",
-			closeEvents: "navigate.popup pagebeforechange.popup",
-			dismissable: true,
-
-			// NOTE Windows Phone 7 has a scroll position caching issue that
-			//      requires us to disable popup history management by default
-			//      https://github.com/jquery/jquery-mobile/issues/4784
-			//
-			// NOTE this option is modified in _create!
-			history: !$.mobile.browser.ie
+			dismissable: true
 		},
 
 		_eatEventAndClose: function( e ) {
@@ -173,18 +161,9 @@ define( [ "jquery",
 				myId = this.element.attr( "id" ),
 				self = this;
 
-			// We need to adjust the history option to be false if there's no AJAX nav.
-			// We can't do it in the option declarations because those are run before
-			// it is determined whether there shall be AJAX nav.
-			this.options.history = this.options.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled;
-
 			if ( thisPage.length === 0 ) {
 				thisPage = $( "body" );
 			}
-
-			// define the container for navigation event bindings
-			// TODO this would be nice at the the mobile widget level
-			this.options.container = this.options.container || $.mobile.pageContainer;
 
 			// Apply the proto
 			thisPage.append( ui.screen );
@@ -204,6 +183,9 @@ define( [ "jquery",
 			// Define instance variables
 			$.extend( this, {
 				_page: thisPage,
+				// define the container for navigation event bindings
+				// TODO this would be nice at the defaults declaration level
+				_pageContainer: $.mobile.popup.defaults.container || $.mobile.pageContainer,
 				_ui: ui,
 				_fallbackTransition: "",
 				_currentTransition: false,
@@ -211,6 +193,10 @@ define( [ "jquery",
 				_isOpen: false,
 				_tolerance: null,
 				_resizeData: null,
+				// We need to adjust the history option to be false if there's no AJAX
+				// nav. We can't do it in the defaults declarations because those are
+				// run before it is determined whether there shall be AJAX nav.
+				_history: $.mobile.popup.defaults.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled,
 				_orientationchangeInProgress: false
 			});
 
@@ -347,28 +333,15 @@ define( [ "jquery",
 		},
 
 		_setOption: function( key, value ) {
-			var exclusions, setter = "_set" + key.charAt( 0 ).toUpperCase() + key.slice( 1 );
+			var setter = "_set" + key.charAt( 0 ).toUpperCase() + key.slice( 1 );
 
 			if ( this[ setter ] !== undefined ) {
 				this[ setter ]( value );
 			}
 
-			// TODO REMOVE FOR 1.2.1 by moving them out to a default options object
-			exclusions = [
-				"initSelector",
-				"closeLinkSelector",
-				"closeLinkEvents",
-				"navigateEvents",
-				"closeEvents",
-				"history",
-				"container"
-			];
-
-			$.mobile.widget.prototype._setOption.apply( this, arguments );
-			if ( $.inArray( key, exclusions ) === -1 ) {
-				// Record the option change in the options and in the DOM data-* attributes
-				this.element.attr( "data-" + ( $.mobile.ns || "" ) + ( key.replace( /([A-Z])/, "-$1" ).toLowerCase() ), value );
-			}
+			this._super( "_setOption", key, value );
+			// Record the option change in the options and in the DOM data-* attributes
+			this.element.attr( "data-" + ( $.mobile.ns || "" ) + ( key.replace( /([A-Z])/, "-$1" ).toLowerCase() ), value );
 		},
 
 		// Try and center the overlay over the given coordinates
@@ -637,12 +610,12 @@ define( [ "jquery",
 		},
 
 		_closePrereqsDone: function() {
-			var opts = this.options;
+			var opts = $.mobile.popup.defaults;
 
 			this._ui.container.removeAttr( "tabindex" );
 
 			// remove nav bindings if they are still present
-			opts.container.unbind( opts.closeEvents );
+			this._pageContainer.unbind( opts.closeEvents );
 
 			// unbind click handlers added when history is disabled
 			this.element.undelegate( opts.closeLinkSelector, opts.closeLinkEvents );
@@ -715,7 +688,7 @@ define( [ "jquery",
 
 				if ( this._myUrl !== toUrl ) {
 					// Going to a different page - close immediately
-					this.options.container.unbind( this.options.closeEvents );
+					this._pageContainer.unbind( $.mobile.popup.defaults.closeEvents );
 					this._close( true );
 				} else {
 					this._close();
@@ -731,14 +704,13 @@ define( [ "jquery",
 		// NOTE the pagebeforechange is bound to catch navigation events that don't
 		//      alter the url (eg, dialogs from popups)
 		_bindContainerClose: function() {
-			this.options.container
-				.one( this.options.closeEvents, $.proxy( this, "_closePopup" ) );
+			this._pageContainer.one( $.mobile.popup.defaults.closeEvents, $.proxy( this, "_closePopup" ) );
 		},
 
 		// TODO no clear deliniation of what should be here and
 		// what should be in _open. Seems to be "visual" vs "history" for now
 		open: function( options ) {
-			var self = this, opts = this.options, url, hashkey, activePage, currentIsDialog, hasHash, urlHistory;
+			var self = this, url, hashkey, activePage, currentIsDialog, hasHash, urlHistory, defaults = $.mobile.popup.defaults;
 
 			// make sure open is idempotent
 			if( $.mobile.popup.active ) {
@@ -750,7 +722,7 @@ define( [ "jquery",
 
 			// if history alteration is disabled close on navigate events
 			// and leave the url as is
-			if( !( opts.history ) ) {
+			if( !this._history ) {
 				self._open( options );
 				self._bindContainerClose();
 
@@ -758,7 +730,7 @@ define( [ "jquery",
 				// back link clicks so we can close the popup instead of
 				// relying on history to do it for us
 				self.element
-					.delegate( opts.closeLinkSelector, opts.closeLinkEvents, function( e ) {
+					.delegate( defaults.closeLinkSelector, defaults.closeLinkEvents, function( e ) {
 						self._close();
 
 						// NOTE prevent the browser and navigation handlers from
@@ -792,7 +764,7 @@ define( [ "jquery",
 			}
 
 			// swallow the the initial navigation event, and bind for the next
-			opts.container.one( opts.navigateEvents, function( e ) {
+			this._pageContainer.one( defaults.navigateEvents, function( e ) {
 				e.preventDefault();
 				self._open( options );
 				self._bindContainerClose();
@@ -813,7 +785,7 @@ define( [ "jquery",
 				return;
 			}
 
-			if( this.options.history ) {
+			if( this._history ) {
 				$.mobile.back();
 			} else {
 				this._close();
@@ -821,37 +793,58 @@ define( [ "jquery",
 		}
 	});
 
+	$.extend( $.mobile.popup, {
+		// TODO this can be moved inside the widget
+		handleLink: function( $link ) {
+			var closestPage = $link.closest( ":jqmData(role='page')" ),
+				scope = ( ( closestPage.length === 0 ) ? $( "body" ) : closestPage ),
+				// NOTE make sure to get only the hash, ie7 (wp7) return the absolute href
+				//      in this case ruining the element selection
+				popup = $( $.mobile.path.parseUrl($link.attr( "href" )).hash, scope[0] ),
+				offset;
 
-	// TODO this can be moved inside the widget
-	$.mobile.popup.handleLink = function( $link ) {
-		var closestPage = $link.closest( ":jqmData(role='page')" ),
-			scope = ( ( closestPage.length === 0 ) ? $( "body" ) : closestPage ),
-			// NOTE make sure to get only the hash, ie7 (wp7) return the absolute href
-			//      in this case ruining the element selection
-			popup = $( $.mobile.path.parseUrl($link.attr( "href" )).hash, scope[0] ),
-			offset;
-
-		if ( popup.data( "popup" ) ) {
-			offset = $link.offset();
-			popup.popup( "open", {
-				x: offset.left + $link.outerWidth() / 2,
-				y: offset.top + $link.outerHeight() / 2,
-				transition: $link.jqmData( "transition" ),
-				positionTo: $link.jqmData( "position-to" ),
-				link: $link
-			});
-		}
-
-		//remove after delay
-		setTimeout( function() {
-			// Check if we are in a listview
-			var $parent = $link.parent().parent();
-			if ($parent.hasClass("ui-li")) {
-				$link = $parent.parent();
+			if ( popup.data( "popup" ) ) {
+				offset = $link.offset();
+				popup.popup( "open", {
+					x: offset.left + $link.outerWidth() / 2,
+					y: offset.top + $link.outerHeight() / 2,
+					transition: $link.jqmData( "transition" ),
+					positionTo: $link.jqmData( "position-to" ),
+					link: $link
+				});
 			}
-			$link.removeClass( $.mobile.activeBtnClass );
-		}, 300 );
-	};
+
+			//remove after delay
+			setTimeout( function() {
+				// Check if we are in a listview
+				var $parent = $link.parent().parent();
+				if ($parent.hasClass("ui-li")) {
+					$link = $parent.parent();
+				}
+				$link.removeClass( $.mobile.activeBtnClass );
+			}, 300 );
+		},
+
+		defaults: {
+			initSelector: ":jqmData(role='popup')",
+			closeLinkSelector: "a:jqmData(rel='back')",
+			closeLinkEvents: "click.popup",
+			navigateEvents: "navigate.popup",
+			closeEvents: "navigate.popup pagebeforechange.popup",
+			// NOTE Windows Phone 7 has a scroll position caching issue that
+			//      requires us to disable popup history management by default
+			//      https://github.com/jquery/jquery-mobile/issues/4784
+			//
+			// TODO intersect this option with
+			//      ( $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled )
+			//      This needs to be done later in the game (it is done during the
+			//      widget's _create()) because ajaxEnabled and hashListeningEnabled
+			//      have not yet been established at the time this value is assigned.
+			//      The workaround for now is to perform the intersection whenever
+			//      the value is used in the above popup widget code.
+			history: !$.mobile.browser.ie
+		}
+	});
 
 	// TODO move inside _create
 	$( document ).bind( "pagebeforechange", function( e, data ) {
