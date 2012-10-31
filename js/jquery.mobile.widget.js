@@ -40,7 +40,9 @@ $.widget( "mobile.widget", {
 	},
 
 	enhanceWithin: function( target, useKeepNative ) {
-		this.enhance( $( this.options.initSelector, $( target )), useKeepNative );
+		var defaults = $[ this.namespace ][ this.widgetName ].defaults,
+			initSelector = this.options.initSelector || ( defaults ? defaults.initSelector : "" );
+		this.enhance( $( initSelector, $( target ) ), useKeepNative );
 	},
 
 	enhance: function( targets, useKeepNative ) {
