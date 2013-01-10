@@ -19,6 +19,7 @@ $files = array(
 	'jquery.hashchange.js',
 	'widgets/page.js',
 	'jquery.mobile.core.js',
+	'jquery.mobile.createDom.js',
 	'widgets/loader.js',
 	'events/navigate.js',
 	'navigation/path.js',
