@@ -152,14 +152,28 @@ $.mobile.browser.oldIE = (function() {
 
 
 $.extend( $.support, {
-	cssTransitions: "WebKitTransitionEvent" in window || validStyle( 'transition', 'height 100ms linear', [ "Webkit", "Moz", "" ] ) && !$.mobile.browser.oldIE && !opera,
-	pushState: "pushState" in history && "replaceState" in history,
+	cssTransitions: "WebKitTransitionEvent" in window ||
+		validStyle( 'transition', 'height 100ms linear', [ "Webkit", "Moz", "" ] ) &&
+		!$.mobile.browser.oldIE && !opera,
+
+	// Note, Chrome for iOS has an extremely quirky implementation of popstate.
+	// We've chosen to take the shortest path to a bug fix here for issue #5426
+	// See the following link for information about the regex chosen
+	// https://developers.google.com/chrome/mobile/docs/user-agent#chrome_for_ios_user-agent
+	pushState: "pushState" in history &&
+		"replaceState" in history &&
+		( window.navigator.userAgent.search(/CriOS/) === -1 ),
+
 	mediaquery: $.mobile.media( "only all" ),
 	cssPseudoElement: !!propExists( "content" ),
 	touchOverflow: !!propExists( "overflowScrolling" ),
 	cssTransform3d: transform3dTest(),
 	boxShadow: !!propExists( "boxShadow" ) && !bb,
-	scrollTop: ( "pageXOffset" in window || "scrollTop" in document.documentElement || "scrollTop" in fakeBody[ 0 ] ) && !webos && !operamini,
+
+	scrollTop: ("pageXOffset" in window ||
+		"scrollTop" in document.documentElement ||
+		"scrollTop" in fakeBody[ 0 ]) && !webos && !operamini,
+
 	dynamicBaseTag: baseTagTest(),
 	cssPointerEvents: cssPointerEventsTest(),
 	boundingRect: boundingRect()
