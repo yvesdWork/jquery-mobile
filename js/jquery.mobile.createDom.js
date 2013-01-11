@@ -11,24 +11,19 @@ define( [ "jquery.mobile.core" ], function( $ ) {
 // 1. { tagname: [ { attr: value, ... }, [ children ]] }
 // 2. "a string"
 function mkEl( el ) {
-	var ret, key, idx, attr, children, child;
+	var ret, key, attr, children, child;
 
 	if ( $.type( el ) === "string" ) {
 		ret = document.createTextNode( el );
 	} else {
 		for ( key in el ) {
 			ret = document.createElement( key );
-			for( idx in el[ key ] ) {
-				if ( $.type( el[ key ][ idx ] ) === "object" ) {
-					for( attr in el[ key ][ idx ] ) {
-						ret.setAttribute( attr, el[ key ][ idx ][ attr ] );
-					}
-				} else if ( $.type( el[ key ][ idx ] ) === "array" ) {
-					children = mkChildren( el[ key ][ idx ] );
-					for( child in children ) {
-						ret.appendChild( children[ child ] );
-					}
-				}
+			for( attr in el[ key ][ 0 ] ) {
+				ret.setAttribute( attr, el[ key ][ 0 ][ attr ] );
+			}
+			children = mkChildren( el[ key ][ 1 ] );
+			for( child in children ) {
+				ret.appendChild( children[ child ] );
 			}
 		}
 	}
