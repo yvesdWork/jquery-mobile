@@ -22,8 +22,6 @@ define( [ "jquery",
 			initSelector: ":jqmData(role='controlgroup')"
 		},
 
-		_created: $.Deferred(),
-
 		_create: function() {
 			var $el = this.element,
 				inner = $( "<div class='ui-controlgroup-controls'></div>" ),
