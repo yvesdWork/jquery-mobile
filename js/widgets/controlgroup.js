@@ -22,6 +22,8 @@ define( [ "jquery",
 			initSelector: ":jqmData(role='controlgroup')"
 		},
 
+		_created: $.Deferred(),
+
 		_create: function() {
 			var $el = this.element,
 				inner = $( "<div class='ui-controlgroup-controls'></div>" ),
@@ -97,18 +99,16 @@ define( [ "jquery",
 		}
 	}, $.mobile.behaviors.addFirstLastClasses ) );
 
-	// TODO: Implement a mechanism to allow widgets to become enhanced in the
-	// correct order when their correct enhancement depends on other widgets in
-	// the page being correctly enhanced already.
-	//
-	// For now, we wait until dom-ready to attach the controlgroup's enhancement
-	// hook, because by that time, all the other widgets' enhancement hooks should
-	// already be in place, ensuring that all widgets that need to be grouped will
-	// already have been enhanced by the time the controlgroup is created.
-	$( function() {
-		$.mobile.document.bind( "pagecreate create", function( e )  {
-			$.mobile.controlgroup.prototype.enhanceWithin( e.target, true );
-		});
+	// Register the controlgroup widget with an enhancement dependency on
+	// checkboxradio when it exists as part of the library
+	$.mobile.controlgroup.prototype._register({
+		dependencies: [
+			"mobile.checkboxradio",
+			"mobile.selectmenu",
+			"mobile.button",
+			"mobile.buttonMarkup",
+			"mobile.checkboxradio"
+		]
 	});
 })(jQuery);
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

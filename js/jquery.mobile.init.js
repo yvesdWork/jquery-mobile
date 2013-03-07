@@ -145,6 +145,11 @@ define([
 		// so if it's 1, use 0 from now on
 		$.mobile.defaultHomeScroll = ( !$.support.scrollTop || $.mobile.window.scrollTop() === 1 ) ? 0 : 1;
 
+		$( document ).bind( "pagecreate create", function( event ) {
+			$.mobile.widget._resolveDependencies( event.target );
+			$.mobile.widget._resetRegistry();
+		});
+
 		//dom-ready inits
 		if ( $.mobile.autoInitializePage ) {
 			$.mobile.initializePage();

@@ -66,8 +66,69 @@ $.widget( "mobile.widget", {
 
 	raise: function( msg ) {
 		throw "Widget [" + this.widgetName + "]: " + msg;
+	},
+
+	_name: function() {
+		return this.namespace + "." + this.widgetName;
+	},
+
+	_register: function( opts ) {
+		var opts = opts || {},
+			proto = this,
+			name = this._name(),
+			registry = $.mobile.widget._registry;
+
+		registry[ name ] = {
+			deferred: $.Deferred(),
+			dependencies: opts.dependencies || [],
+			callback: function( within ) {
+				(opts.callback || $.noop)( within );
+
+				// requires that the within is set by the page
+				// create or create callback
+				// TODO likely have to leave this to the opts.callback
+				proto.enhanceWithin(within, true);
+			}
+		};
 	}
 });
+
+$.extend( $.mobile.widget, {
+	_registry: {},
+
+	_resetRegistry: function() {
+		for( widget in this._registry) {
+			this._registry[widget].deferred = $.Deferred();
+		}
+	},
+
+	_resolveDependencies: function( within ) {
+		var deferreds = [], obj, registry = this._registry;
+
+		// for each widget in the registry setup a new promise
+		// based on the deferreds of it's dependencies
+		$.each(registry, function( name, entry ) {
+			// grab all the deferreds that need to be resolved
+			// for this widget to be enhanced. Where the dependency isn't defined
+			// ignore it by returning undefined which $.map will discard
+			deferreds = $.map(entry.dependencies, function(depName) {
+				return (registry[depName] || {}).deferred;
+			});
+
+			// when all of the deferreds resolve execute the callback
+			// and resolve the deferred for that specific widget
+			$.when.apply($, deferreds).done(function() {
+				// enhance anything passed in as a callback
+				entry.callback( within );
+
+				// once the widget is enhanced (callback) resolve it's
+				// depedency deferred
+				entry.deferred.resolve();
+			});
+		});
+	}
+});
+
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

@@ -1,11 +1,12 @@
 language: node_js
 node_js:
   - 0.8
-before_script: 
+before_script:
   - npm install -g grunt-cli
 branches:
   only:
     - master
+    - widget-registry
 notifications:
   irc:
     channels:

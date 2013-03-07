@@ -19,6 +19,7 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, $.extend( {
 		mini: false,
 		initSelector: "input[type='checkbox'],input[type='radio']"
 	},
+
 	_create: function() {
 		var self = this,
 			input = this.element,
@@ -207,9 +208,7 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, $.extend( {
 }, $.mobile.behaviors.formReset ) );
 
 //auto self-init widgets
-$.mobile.document.bind( "pagecreate create", function( e ) {
-	$.mobile.checkboxradio.prototype.enhanceWithin( e.target, true );
-});
+$.mobile.checkboxradio.prototype._register();
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);
