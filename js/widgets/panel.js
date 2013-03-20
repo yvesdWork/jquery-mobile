@@ -9,7 +9,7 @@ define( [ "jquery", "../jquery.mobile.widget", "./page", "./page.sections", "../
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.panel", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.panel", { base: $.mobile.widget, proto: {
 	options: {
 		classes: {
 			panel: "ui-panel",
@@ -456,7 +456,7 @@ $.widget( "mobile.panel", $.mobile.widget, {
 		this.element.off( this._transitionEndEvents )
 			.removeClass( [ classes.panelUnfixed, classes.panelClosed, classes.panelOpen ].join( " " ) );
 	}
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.panel" );

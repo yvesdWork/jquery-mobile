@@ -9,7 +9,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.buttonMarkup", 
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.collapsible", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.collapsible", { base: $.mobile.widget, proto: {
 	options: {
 		expandCueText: " click to expand contents",
 		collapseCueText: " click to collapse contents",
@@ -155,7 +155,7 @@ $.widget( "mobile.collapsible", $.mobile.widget, {
 				event.stopPropagation();
 			});
 	}
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.collapsible" );

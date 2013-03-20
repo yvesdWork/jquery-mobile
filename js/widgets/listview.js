@@ -14,7 +14,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.buttonMarkup", 
 //https://github.com/jquery/jquery-mobile/issues/1617
 var listCountPerPage = {};
 
-$.widget( "mobile.listview", $.mobile.widget, $.extend( {
+$.mobile._enhancer.addDefinition( "mobile.listview", { base: $.mobile.widget, proto: $.extend( {
 
 	options: {
 		theme: null,
@@ -378,7 +378,7 @@ $.widget( "mobile.listview", $.mobile.widget, $.extend( {
 
 		return $( ":jqmData(url^='"+  parentUrl + "&" + $.mobile.subPageUrlKey + "')" );
 	}
-}, $.mobile.behaviors.addFirstLastClasses ) );
+}, $.mobile.behaviors.addFirstLastClasses ) } );
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.listview" );

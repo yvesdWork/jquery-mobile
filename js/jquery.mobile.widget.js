@@ -43,8 +43,8 @@ $.widget( "mobile.widget", {
 		this.enhance( $( this.options.initSelector, $( target )), useKeepNative );
 	},
 
-	enhance: function( targets, useKeepNative ) {
-		var page, keepNative, $widgetElements = $( targets ), self = this;
+	enhanceables: function( $widgetElements, useKeepNative ) {
+		var page, keepNative;
 
 		// if ignoreContentEnabled is set to true the framework should
 		// only enhance the selected elements when they do NOT have a
@@ -56,12 +56,21 @@ $.widget( "mobile.widget", {
 			// Currently the keepNative value is defined on the page prototype so
 			// the method is as well
 			page = $.mobile.closestPageData( $widgetElements );
-			keepNative = ( page && page.keepNativeSelector()) || "";
+			keepNative = ( page && page.keepNativeSelector() );
 
-			$widgetElements = $widgetElements.not( keepNative );
+			if ( keepNative ) {
+				$widgetElements = $widgetElements.not( keepNative );
+			}
 		}
 
-		$widgetElements[ this.widgetName ]();
+		return $widgetElements;
+	},
+
+	enhance: function( targets, useKeepNative ) {
+		targets = this.enhanceables( targets, useKeepNative );
+		if ( targets.length > 0 ) {
+			targets[ this.widgetName ]();
+		}
 	},
 
 	raise: function( msg ) {

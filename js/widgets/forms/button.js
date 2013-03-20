@@ -27,7 +27,7 @@ function splitOptions( o ) {
 	return ret;
 }
 
-$.widget( "mobile.button", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.button", { base: $.mobile.widget, proto: {
 	options: {
 		theme: null,
 		icon: null,
@@ -154,7 +154,7 @@ $.widget( "mobile.button", $.mobile.widget, {
 		// Grab the button's text element from its implementation-independent data item
 		$( this.button.data( 'buttonElements' ).text )[ $el.html() ? "html" : "text" ]( $el.html() || $el.val() );
 	}
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.button" );

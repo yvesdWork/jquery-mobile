@@ -9,23 +9,25 @@ define( [ "jquery", "./table", "../jquery.mobile.buttonMarkup", "./popup", "../j
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.mobile.table.prototype.options.mode = "columntoggle";
+$.mobile.document.one( "tabledefine", function() {
+	$.mobile.table.prototype.options.mode = "columntoggle";
 
-$.mobile.table.prototype.options.columnBtnTheme = null;
+	$.mobile.table.prototype.options.columnBtnTheme = null;
 
-$.mobile.table.prototype.options.columnPopupTheme = null;
+	$.mobile.table.prototype.options.columnPopupTheme = null;
 
-$.mobile.table.prototype.options.columnBtnText = "Columns...";
+	$.mobile.table.prototype.options.columnBtnText = "Columns...";
 
-$.mobile.table.prototype.options.classes = $.extend(
-	$.mobile.table.prototype.options.classes,
-	{
-		popup: "ui-table-columntoggle-popup",
-		columnBtn: "ui-table-columntoggle-btn",
-		priorityPrefix: "ui-table-priority-",
-		columnToggleTable: "ui-table-columntoggle"
-	}
-);
+	$.mobile.table.prototype.options.classes = $.extend(
+		$.mobile.table.prototype.options.classes,
+		{
+			popup: "ui-table-columntoggle-popup",
+			columnBtn: "ui-table-columntoggle-btn",
+			priorityPrefix: "ui-table-priority-",
+			columnToggleTable: "ui-table-columntoggle"
+		}
+	);
+});
 
 $.mobile.document.delegate( ":jqmData(role='table')", "tablecreate", function() {
 

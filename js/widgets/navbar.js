@@ -10,7 +10,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.buttonMarkup", 
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.navbar", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.navbar", { base: $.mobile.widget, proto: {
 	options: {
 		iconpos: "top",
 		grid: null,
@@ -54,7 +54,7 @@ $.widget( "mobile.navbar", $.mobile.widget, {
 			$navbtns.filter( ".ui-state-persist" ).addClass( $.mobile.activeBtnClass );
 		});
 	}
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.navbar" );

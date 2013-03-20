@@ -4,20 +4,22 @@
 //>>group: Widgets
 
 
-define( [ "jquery", "./listview", "./forms/textinput" ], function( jQuery ) {
+define( [ "jquery", "./listview", "./forms/textinput", "../jquery.mobile.registry" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.mobile.listview.prototype.options.filter = false;
-$.mobile.listview.prototype.options.filterPlaceholder = "Filter items...";
-$.mobile.listview.prototype.options.filterTheme = "c";
-$.mobile.listview.prototype.options.filterReveal = false;
-// TODO rename callback/deprecate and default to the item itself as the first argument
-var defaultFilterCallback = function( text, searchValue, item ) {
-		return text.toString().toLowerCase().indexOf( searchValue ) === -1;
-	};
+$.mobile.document.one( "listviewdefine", function() {
+	$.mobile.listview.prototype.options.filter = false;
+	$.mobile.listview.prototype.options.filterPlaceholder = "Filter items...";
+	$.mobile.listview.prototype.options.filterTheme = "c";
+	$.mobile.listview.prototype.options.filterReveal = false;
+	// TODO rename callback/deprecate and default to the item itself as the first argument
+	var defaultFilterCallback = function( text, searchValue, item ) {
+			return text.toString().toLowerCase().indexOf( searchValue ) === -1;
+		};
 
-$.mobile.listview.prototype.options.filterCallback = defaultFilterCallback;
+	$.mobile.listview.prototype.options.filterCallback = defaultFilterCallback;
+});
 
 $.mobile.document.delegate( "ul, ol", "listviewcreate", function() {
 	var list = $( this ),
@@ -30,6 +32,9 @@ $.mobile.document.delegate( "ul, ol", "listviewcreate", function() {
 	if ( listview.options.filterReveal ) {
 		list.children().addClass( "ui-screen-hidden" );
 	}
+
+	// Make sure the textinput is available
+	$.mobile._enhancer.define( "mobile.textinput" );
 
 	var wrapper = $( "<form>", {
 			"class": "ui-listview-filter ui-bar-" + listview.options.filterTheme,

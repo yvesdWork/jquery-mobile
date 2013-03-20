@@ -9,7 +9,7 @@ define( [ "jquery", "./slider" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.slider", $.mobile.slider, {
+$.mobile._enhancer.addDefinition( "mobile.slider", { proto: {
 	options: {
 		popupEnabled: false,
 		showValue: false
@@ -115,7 +115,7 @@ $.widget( "mobile.slider", $.mobile.slider, {
 			this._popupVisible = false;
 		}
 	}
-});
+}});
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

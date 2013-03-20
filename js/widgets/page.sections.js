@@ -7,12 +7,14 @@ define( [ "jquery", "./page", "../jquery.mobile.core", "../jquery.mobile.registr
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.mobile.page.prototype.options.backBtnText  = "Back";
-$.mobile.page.prototype.options.addBackBtn   = false;
-$.mobile.page.prototype.options.backBtnTheme = null;
-$.mobile.page.prototype.options.headerTheme  = "a";
-$.mobile.page.prototype.options.footerTheme  = "a";
-$.mobile.page.prototype.options.contentTheme = null;
+$.mobile.document.one( "pagedefine", function() {
+	$.mobile.page.prototype.options.backBtnText  = "Back";
+	$.mobile.page.prototype.options.addBackBtn   = false;
+	$.mobile.page.prototype.options.backBtnTheme = null;
+	$.mobile.page.prototype.options.headerTheme  = "a";
+	$.mobile.page.prototype.options.footerTheme  = "a";
+	$.mobile.page.prototype.options.contentTheme = null;
+});
 
 // NOTE bind used to force this binding to run before the buttonMarkup binding
 //      which expects .ui-footer top be applied in its gigantic selector

@@ -1,6 +1,6 @@
-(function( $, undefined ) {	
-	$( document ).on( "mobileinit", function(){
-		$.widget( "mobile.listview", $.mobile.listview, {
+(function( $, undefined ) {
+	$( document ).on( "mobileinit", function() {
+		$.mobile._enhancer.addDefinition( "mobile.listview", { proto: {
 			options: {
 				theme: null,
 				countTheme: "c",
@@ -30,6 +30,6 @@
 					$( this ).attr( "href", href );
 				});
 			}
-		});
+		}});
 	});
 })( jQuery );

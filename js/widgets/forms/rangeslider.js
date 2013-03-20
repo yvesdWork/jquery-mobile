@@ -8,7 +8,7 @@
 define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "./textinput", "../../jquery.mobile.buttonMarkup", "./reset", "./slider", "../../jquery.mobile.registry" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
-	$.widget( "mobile.rangeslider", $.mobile.widget, {
+	$.mobile._enhancer.addDefinition( "mobile.rangeslider", { base: $.mobile.widget, proto: $.extend( {
 
 		options: {
 			theme: null,
@@ -193,9 +193,7 @@ define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", ".
 			this.element.find( "input" ).removeClass( "ui-rangeslider-first ui-rangeslider-last" ).slider( "destroy" );
 		}
 
-	});
-
-$.widget( "mobile.rangeslider", $.mobile.rangeslider, $.mobile.behaviors.formReset );
+	}, $.mobile.behaviors.formReset ) } );
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.rangeslider", { dependencies: [ "mobile.slider" ] } );

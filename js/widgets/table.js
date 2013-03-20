@@ -9,7 +9,7 @@ define( [ "jquery", "../jquery.mobile.widget", "./page", "./page.sections", "../
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.table", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.table", { base: $.mobile.widget, proto: {
 
 		options: {
 			classes: {
@@ -63,7 +63,7 @@ $.widget( "mobile.table", $.mobile.widget, {
 
 	}
 
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.table" );

@@ -13,7 +13,7 @@ define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", ".
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.checkboxradio", $.mobile.widget, $.extend( {
+$.mobile._enhancer.addDefinition( "mobile.checkboxradio", { base: $.mobile.widget, proto: $.extend( {
 	options: {
 		theme: null,
 		mini: false,
@@ -204,7 +204,7 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, $.extend( {
 	enable: function() {
 		this.element.prop( "disabled", false ).parent().removeClass( "ui-disabled" );
 	}
-}, $.mobile.behaviors.formReset ) );
+}, $.mobile.behaviors.formReset ) } );
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.checkboxradio" );

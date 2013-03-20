@@ -13,7 +13,7 @@ define( [ "jquery",
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-	$.widget( "mobile.controlgroup", $.mobile.widget, $.extend( {
+	$.mobile._enhancer.addDefinition( "mobile.controlgroup", { base: $.mobile.widget, proto: $.extend( {
 		options: {
 			shadow: false,
 			corners: true,
@@ -96,7 +96,7 @@ define( [ "jquery",
 			this._addFirstLastClasses( els, this.options.excludeInvisible ? this._getVisibles( els, create ) : els, create );
 			this._initialRefresh = false;
 		}
-	}, $.mobile.behaviors.addFirstLastClasses ) );
+	}, $.mobile.behaviors.addFirstLastClasses ) } );
 
 	$.mobile._enhancer.add( "mobile.controlgroup", {
 		dependencies: [ "mobile.selectmenu", "mobile.button", "mobile.buttonmarkup", "mobile.checkboxradio" ]

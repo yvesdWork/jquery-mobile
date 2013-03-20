@@ -192,7 +192,7 @@ jQuery.fn.removeHighlight = function() {
 $( document ).on( "mobileinit", function() {
 	(function( $, undefined ) {
 
-	$.widget( "mobile.listview", $.mobile.listview, {
+	$.mobile._enhancer.addDefinition( "mobile.listview", { proto: {
 		options: {
 			theme: null,
 			countTheme: "c",
@@ -319,7 +319,7 @@ $( document ).on( "mobileinit", function() {
 			}
 			return;
 		}
-	});
+	}});
 })( jQuery );
 
 });

@@ -9,7 +9,7 @@ define( [ "jquery", "../jquery.mobile.widget", "./collapsible", "./addFirstLastC
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.collapsibleset", $.mobile.widget, $.extend( {
+$.mobile._enhancer.addDefinition( "mobile.collapsibleset", { base: $.mobile.widget, proto: $.extend( {
 	options: {
 		initSelector: ":jqmData(role='collapsible-set')"
 	},
@@ -78,7 +78,7 @@ $.widget( "mobile.collapsibleset", $.mobile.widget, $.extend( {
 	refresh: function() {
 		this._refresh( false );
 	}
-}, $.mobile.behaviors.addFirstLastClasses ) );
+}, $.mobile.behaviors.addFirstLastClasses ) } );
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.collapsibleset" );

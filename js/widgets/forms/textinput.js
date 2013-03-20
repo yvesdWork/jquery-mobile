@@ -9,7 +9,7 @@ define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", ".
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.textinput", $.mobile.widget, {
+$.mobile._enhancer.addDefinition( "mobile.textinput", { base: $.mobile.widget, proto: {
 	options: {
 		theme: null,
 		mini: false,
@@ -179,7 +179,7 @@ $.widget( "mobile.textinput", $.mobile.widget, {
 		$el.removeClass( "ui-disabled" );
 		return this._setOption( "disabled", false );
 	}
-});
+}});
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.textinput" );

@@ -10,7 +10,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 (function( $, undefined ) {
 
 
-	$.widget( "mobile.fixedtoolbar", $.mobile.widget, {
+	$.mobile._enhancer.addDefinition( "mobile.fixedtoolbar", { base: $.mobile.widget, proto: {
 		options: {
 			visibleOnPageShow: true,
 			disablePageZoom: true,
@@ -267,7 +267,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 			$el.closest( ".ui-page" ).removeClass( "ui-page-header-fixed ui-page-footer-fixed ui-page-header-fullscreen ui-page-footer-fullscreen" );
 		}
 
-	});
+	}});
 
 	//auto self-init widgets
 	// NOTE: The implementation via $.mobile._enhancer removes support for

@@ -9,7 +9,7 @@ define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", ".
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.selectmenu", $.mobile.widget, $.extend( {
+$.mobile._enhancer.addDefinition( "mobile.selectmenu", { base: $.mobile.widget, proto: $.extend( {
 	options: {
 		theme: null,
 		disabled: false,
@@ -284,7 +284,7 @@ $.widget( "mobile.selectmenu", $.mobile.widget, $.extend( {
 		this._setDisabled( false );
 		this.button.removeClass( "ui-disabled" );
 	}
-}, $.mobile.behaviors.formReset ) );
+}, $.mobile.behaviors.formReset ) } );
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.selectmenu" );

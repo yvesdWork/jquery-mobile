@@ -6,20 +6,22 @@ define( [ "jquery", "./listview" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.mobile.listview.prototype.options.autodividers = false;
-$.mobile.listview.prototype.options.autodividersSelector = function( elt ) {
-	// look for the text in the given element
-	var text = $.trim( elt.text() ) || null;
+$.mobile.document.one( "listviewdefine", function() {
+	$.mobile.listview.prototype.options.autodividers = false;
+	$.mobile.listview.prototype.options.autodividersSelector = function( elt ) {
+		// look for the text in the given element
+		var text = $.trim( elt.text() ) || null;
 
-	if ( !text ) {
-		return null;
-	}
+		if ( !text ) {
+			return null;
+		}
 
-	// create the text for the divider (first uppercased letter)
-	text = text.slice( 0, 1 ).toUpperCase();
+		// create the text for the divider (first uppercased letter)
+		text = text.slice( 0, 1 ).toUpperCase();
 
-	return text;
-};
+		return text;
+	};
+});
 
 $.mobile.document.delegate( "ul,ol", "listviewcreate", function() {
 

@@ -6,7 +6,7 @@
 define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jquery.mobile.navigation", "./page", "./page.sections", "../jquery.mobile.zoom", "./fixedToolbar" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
-	$.widget( "mobile.fixedtoolbar", $.mobile.fixedtoolbar, {
+	$.mobile._enhancer.addDefinition( "mobile.fixedtoolbar", { proto: {
 
 			_create: function() {
 				this._super();
@@ -96,7 +96,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 				//Remove the class we added to the page previously in android 2.x 
 				this.element.closest(".ui-page-active").removeClass( "ui-android-2x-fix" );
 			}
-	});
+	}});
 
 	})( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

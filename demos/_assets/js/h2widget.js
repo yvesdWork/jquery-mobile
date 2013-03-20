@@ -100,8 +100,8 @@
 		});
 	});
 	//h2 widget
-	$( document ).on( "mobileinit", function(){
-		$.widget( "mobile.h2linker", $.mobile.widget, {
+	$( document ).on( "mobileinit", function() {
+		$.mobile._enhancer.addDefinition( "mobile.h2linker", { base: $.mobile.widget, proto: {
 			options:{
 				initSelector: ":jqmData(quicklinks='true')"
 			},
@@ -158,12 +158,15 @@
 
 
 			}
+		}});
+
+		$.mobile._enhancer.add( "mobile.h2linker", undefined, function( target ) {
+			var initselector = $.mobile.h2linker.prototype.options.initSelector;
+
+			target = $( target );
+			if( target.data( "quicklinks" ) ){
+				target.h2linker();
+			}
 		});
-	});
-	$( document ).bind( "pagecreate create", function( e ) {
-		var initselector = $.mobile.h2linker.prototype.options.initSelector;
-		if($(e.target).data("quicklinks")){
-			$(e.target).h2linker();
-		}
 	});
 })( jQuery );

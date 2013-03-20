@@ -51,7 +51,7 @@ define( [
 		};
 	}
 
-	$.widget( "mobile.popup", $.mobile.widget, {
+	$.mobile._enhancer.addDefinition( "mobile.popup", { base: $.mobile.widget, proto: {
 		options: {
 			theme: null,
 			overlayTheme: null,
@@ -873,38 +873,39 @@ define( [
 				this._closePopup();
 			}
 		}
-	});
+	}});
 
+	$.mobile.document.one( "popupdefine", function() {
+		// TODO this can be moved inside the widget
+		$.mobile.popup.handleLink = function( $link ) {
+			var closestPage = $link.closest( ":jqmData(role='page')" ),
+				scope = ( ( closestPage.length === 0 ) ? $( "body" ) : closestPage ),
+				// NOTE make sure to get only the hash, ie7 (wp7) return the absolute href
+				//      in this case ruining the element selection
+				popup = $( $.mobile.path.parseUrl($link.attr( "href" )).hash, scope[0] ),
+				offset;
 
-	// TODO this can be moved inside the widget
-	$.mobile.popup.handleLink = function( $link ) {
-		var closestPage = $link.closest( ":jqmData(role='page')" ),
-			scope = ( ( closestPage.length === 0 ) ? $( "body" ) : closestPage ),
-			// NOTE make sure to get only the hash, ie7 (wp7) return the absolute href
-			//      in this case ruining the element selection
-			popup = $( $.mobile.path.parseUrl($link.attr( "href" )).hash, scope[0] ),
-			offset;
-
-		if ( popup.data( "mobile-popup" ) ) {
-			offset = $link.offset();
-			popup.popup( "open", {
-				x: offset.left + $link.outerWidth() / 2,
-				y: offset.top + $link.outerHeight() / 2,
-				transition: $link.jqmData( "transition" ),
-				positionTo: $link.jqmData( "position-to" )
-			});
-		}
-
-		//remove after delay
-		setTimeout( function() {
-			// Check if we are in a listview
-			var $parent = $link.parent().parent();
-			if ($parent.hasClass("ui-li")) {
-				$link = $parent.parent();
+			if ( popup.data( "mobile-popup" ) ) {
+				offset = $link.offset();
+				popup.popup( "open", {
+					x: offset.left + $link.outerWidth() / 2,
+					y: offset.top + $link.outerHeight() / 2,
+					transition: $link.jqmData( "transition" ),
+					positionTo: $link.jqmData( "position-to" )
+				});
 			}
-			$link.removeClass( $.mobile.activeBtnClass );
-		}, 300 );
-	};
+
+			//remove after delay
+			setTimeout( function() {
+				// Check if we are in a listview
+				var $parent = $link.parent().parent();
+				if ($parent.hasClass("ui-li")) {
+					$link = $parent.parent();
+				}
+				$link.removeClass( $.mobile.activeBtnClass );
+			}, 300 );
+		};
+	});
 
 	// TODO move inside _create
 	$.mobile.document.bind( "pagebeforechange", function( e, data ) {

@@ -9,15 +9,17 @@ define( [ "jquery", "./table" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.mobile.table.prototype.options.mode = "reflow";
+$.mobile.document.one( "tabledefine", function() {
+	$.mobile.table.prototype.options.mode = "reflow";
 
-$.mobile.table.prototype.options.classes = $.extend(
-	$.mobile.table.prototype.options.classes,
-	{
-		reflowTable: "ui-table-reflow",
-		cellLabels: "ui-table-cell-label"
-	}
-);
+	$.mobile.table.prototype.options.classes = $.extend(
+		$.mobile.table.prototype.options.classes,
+		{
+			reflowTable: "ui-table-reflow",
+			cellLabels: "ui-table-cell-label"
+		}
+	);
+});
 
 $.mobile.document.delegate( ":jqmData(role='table')", "tablecreate", function() {
 

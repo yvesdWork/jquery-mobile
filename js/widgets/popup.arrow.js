@@ -34,7 +34,7 @@ function getArrow() {
 	return { arEls: ct.add( gd ), gd: gd, ct: ct, ar: ar, bg: bg };
 }
 
-$.widget( "mobile.popup", $.mobile.popup, {
+$.mobile._enhancer.addDefinition( "mobile.popup", { proto: {
 	options: {
 		arrow: false,
 		arrowSides: "t,b,l,r"
@@ -206,7 +206,7 @@ $.widget( "mobile.popup", $.mobile.popup, {
 			ar.arEls.remove();
 		}
 	}
-});
+}});
 
 })( jQuery );
 
