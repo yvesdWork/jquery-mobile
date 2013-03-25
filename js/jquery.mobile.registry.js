@@ -149,7 +149,7 @@ $.extend( Enhancer.prototype, {
 			$[ namespace ][ widgetName ] = placeholderClass = {};
 
 			this._defineAccessor( $.fn, widgetName, name, namespace, widgetName );
-			this._defineAccessor( $.expr, namespace + "-" + widgetName, name, namespace, widgetName );
+			this._defineAccessor( $.expr[ ":" ], namespace + "-" + widgetName, name, namespace, widgetName );
 			placeholderClass.__defineGetter__( "prototype", $.proxy( function() {
 				this.define( name );
 				return $[ namespace ][ name ].prototype;
