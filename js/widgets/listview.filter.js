@@ -8,16 +8,16 @@ define( [ "jquery", "./listview", "./forms/textinput", "../jquery.mobile.registr
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
+// TODO rename callback/deprecate and default to the item itself as the first argument
+var defaultFilterCallback = function( text, searchValue, item ) {
+	return text.toString().toLowerCase().indexOf( searchValue ) === -1;
+};
+
 $.mobile.document.one( "listviewdefine", function() {
 	$.mobile.listview.prototype.options.filter = false;
 	$.mobile.listview.prototype.options.filterPlaceholder = "Filter items...";
 	$.mobile.listview.prototype.options.filterTheme = "c";
 	$.mobile.listview.prototype.options.filterReveal = false;
-	// TODO rename callback/deprecate and default to the item itself as the first argument
-	var defaultFilterCallback = function( text, searchValue, item ) {
-			return text.toString().toLowerCase().indexOf( searchValue ) === -1;
-		};
-
 	$.mobile.listview.prototype.options.filterCallback = defaultFilterCallback;
 });
 
