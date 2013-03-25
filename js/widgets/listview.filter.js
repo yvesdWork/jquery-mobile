@@ -37,8 +37,8 @@ $.mobile.document.delegate( "ul, ol", "listviewcreate", function() {
 			"class": "ui-listview-filter ui-bar-" + listview.options.filterTheme,
 			"role": "search"
 		}).submit( function( e ) {
-			e.preventDefault();
 			search.blur();
+			return false;
 		}),
 		onKeyUp = function( e ) {
 			var $this = $( this ),
@@ -133,10 +133,7 @@ $.mobile.document.delegate( "ul, ol", "listviewcreate", function() {
 		wrapper.addClass( "ui-listview-filter-inset" );
 	}
 
-	wrapper.bind( "submit", function() {
-		return false;
-	})
-	.insertBefore( list );
+	wrapper.insertBefore( list );
 });
 
 })( jQuery );

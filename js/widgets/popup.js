@@ -207,12 +207,13 @@ define( [
 				},
 				thisPage = this.element.closest( ".ui-page" ),
 				myId = this.element.attr( "id" ),
-				self = this;
+				o = this.options,
+				key, value;
 
 			// We need to adjust the history option to be false if there's no AJAX nav.
 			// We can't do it in the option declarations because those are run before
 			// it is determined whether there shall be AJAX nav.
-			this.options.history = this.options.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled;
+			o.history = o.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled;
 
 			if ( thisPage.length === 0 ) {
 				thisPage = $( "body" );
@@ -220,7 +221,7 @@ define( [
 
 			// define the container for navigation event bindings
 			// TODO this would be nice at the the mobile widget level
-			this.options.container = this.options.container || $.mobile.pageContainer || thisPage;
+			o.container = o.container || $.mobile.pageContainer || thisPage;
 
 			// Apply the proto
 			thisPage.append( ui.screen );
@@ -253,12 +254,15 @@ define( [
 				_orientationchangeInProgress: false
 			});
 
-			$.each( this.options, function( key, value ) {
-				// Cause initial options to be applied by their handler by temporarily setting the option to undefined
-				// - the handler then sets it to the initial value
-				self.options[ key ] = undefined;
-				self._setOption( key, value, true );
-			});
+			// This duplicates the code from the various option setters below for
+			// better performance. It must be kept in sync with those setters.
+			this._applyTheme( this.element, o.theme, "body" );
+			this._applyTheme( this._ui.screen, o.overlayTheme, "overlay" );
+			this._applyTransition( o.transition );
+			this.element
+				.toggleClass( "ui-overlay-shadow", o.shadow )
+				.toggleClass( "ui-corner-all", o.corners );
+			this._setTolerance( o.tolerance );
 
 			ui.screen.bind( "vclick", $.proxy( this, "_eatEventAndClose" ) );
 
@@ -386,28 +390,13 @@ define( [
 		},
 
 		_setOption: function( key, value ) {
-			var exclusions, setter = "_set" + key.charAt( 0 ).toUpperCase() + key.slice( 1 );
+			var setter = "_set" + key.charAt( 0 ).toUpperCase() + key.slice( 1 );
 
 			if ( this[ setter ] !== undefined ) {
 				this[ setter ]( value );
 			}
 
-			// TODO REMOVE FOR 1.2.1 by moving them out to a default options object
-			exclusions = [
-				"initSelector",
-				"closeLinkSelector",
-				"closeLinkEvents",
-				"navigateEvents",
-				"closeEvents",
-				"history",
-				"container"
-			];
-
-			$.mobile.widget.prototype._setOption.apply( this, arguments );
-			if ( $.inArray( key, exclusions ) === -1 ) {
-				// Record the option change in the options and in the DOM data-* attributes
-				this.element.attr( "data-" + ( $.mobile.ns || "" ) + ( key.replace( /([A-Z])/, "-$1" ).toLowerCase() ), value );
-			}
+			this._super( key, value );
 		},
 
 		_clampPopupWidth: function( infoOnly ) {
@@ -749,6 +738,10 @@ define( [
 		_closePopup: function( e, data ) {
 			var parsedDst, toUrl, o = this.options, immediate = false;
 
+			if ( e && e.isDefaultPrevented() ) {
+				return;
+			}
+
 			// restore location on screen
 			window.scrollTo( 0, this._scrollTop );
 
@@ -772,7 +765,7 @@ define( [
 			}
 
 			// remove nav bindings
-			o.container.unbind( o.closeEvents );
+			$.mobile.window.off( o.closeEvents );
 			// unbind click handlers added when history is disabled
 			this.element.undelegate( o.closeLinkSelector, o.closeLinkEvents );
 
@@ -783,8 +776,8 @@ define( [
 		// NOTE the pagebeforechange is bound to catch navigation events that don't
 		//      alter the url (eg, dialogs from popups)
 		_bindContainerClose: function() {
-			this.options.container
-				.one( this.options.closeEvents, $.proxy( this, "_closePopup" ) );
+			$.mobile.window
+				.on( this.options.closeEvents, $.proxy( this, "_closePopup" ) );
 		},
 
 		// TODO no clear deliniation of what should be here and
@@ -823,7 +816,7 @@ define( [
 			urlHistory = $.mobile.urlHistory;
 			hashkey = $.mobile.dialogHashKey;
 			activePage = $.mobile.activePage;
-			currentIsDialog = activePage.hasClass( "ui-dialog" );
+			currentIsDialog = ( activePage ? activePage.hasClass( "ui-dialog" ) : false );
 			this._myUrl = url = urlHistory.getActive().url;
 			hasHash = ( url.indexOf( hashkey ) > -1 ) && !currentIsDialog && ( urlHistory.activeIndex > 0 );
 

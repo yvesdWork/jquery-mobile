@@ -359,14 +359,16 @@ module.exports = function( grunt ) {
 					urls: (function() {
 						// Find the test files
 						var suites = grunt.util._.without( ( grunt.option( "suites" ) || "" ).split( "," ), "" ),
-							patterns, paths,
+							patterns, paths, idx,
+							onePath = "",
+							uniquePaths = [],
 							versionedPaths = [],
-							jQueries = grunt.util._.without( ( grunt.option( "jqueries" ) || "" ).split( "," ), "" );
+							jQueries = grunt.util._.without( ( grunt.option( "jqueries" ) || process.env.JQUERIES || "" ).split( "," ), "" );
 
 						if ( suites.length ) {
 							patterns = [];
 							suites.forEach( function( unit ) {
-								patterns = patterns.concat( [ "tests/unit/" + unit + "/index.html", "tests/unit/" + unit + "/*/index.html", "tests/unit/" + unit + "/**/*-tests.html" ] );
+								patterns = patterns.concat( [ "tests/unit/" + unit, "tests/unit/" + unit + "/index.html", "tests/unit/" + unit + "/*/index.html", "tests/unit/" + unit + "/**/*-tests.html" ] );
 							});
 						} else {
 							patterns = [ "tests/unit/*/index.html", "tests/unit/*/*/index.html", "tests/unit/**/*-tests.html" ];
@@ -378,6 +380,14 @@ module.exports = function( grunt ) {
 								// Some of our tests (ie. navigation) don't like having the index.html too much
 								return path.replace( /\/\index.html$/, "/" );
 							});
+
+						for ( idx in paths ) {
+							if ( onePath !== paths[ idx ] ) {
+								onePath = paths[ idx ];
+								uniquePaths.push( onePath );
+							}
+						}
+						paths = uniquePaths;
 
 						if ( jQueries.length ) {
 							paths.forEach( function( path ) {

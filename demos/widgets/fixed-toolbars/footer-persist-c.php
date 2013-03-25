@@ -16,13 +16,13 @@
 <div data-role="page" class="jqm-demos">
 
     <div data-role="header" class="jqm-header" data-position="fixed">
-		<h1 class="jqm-logo"><a href="../../../"><img src="../../_assets/img/jquery-logo.png" alt="jQuery Mobile Framework"></a></h1>
+		<h1 class="jqm-logo"><a href="../../"><img src="../../_assets/img/jquery-logo.png" alt="jQuery Mobile Framework"></a></h1>
         <a href="#" class="jqm-navmenu-link" data-icon="bars" data-iconpos="notext">Navigation</a>
         <a href="#" class="jqm-search-link" data-icon="search" data-iconpos="notext">Search</a>
         <?php include( '../../search.php' ); ?>
     </div><!-- /header -->
 
-    <div data-role="content" class="jqm-content">
+    <div data-role="content" class="jqm-content jqm-fullwidth">
 
 			<ul data-role="listview" data-split-icon="gear" data-split-theme="d" data-inset="false">
 				<li><a href="#">

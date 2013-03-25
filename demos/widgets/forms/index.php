@@ -16,7 +16,7 @@
 	<div data-role="page" class="jqm-demos" data-quicklinks="true">
 
 		<div data-role="header" class="jqm-header">
-			<h1 class="jqm-logo"><a href="../../../"><img src="../../_assets/img/jquery-logo.png" alt="jQuery Mobile Framework"></a></h1>
+			<h1 class="jqm-logo"><a href="../../"><img src="../../_assets/img/jquery-logo.png" alt="jQuery Mobile Framework"></a></h1>
 			<a href="#" class="jqm-navmenu-link" data-icon="bars" data-iconpos="notext">Navigation</a>
 			<a href="#" class="jqm-search-link" data-icon="search" data-iconpos="notext">Search</a>
 	        <?php include( '../../search.php' ); ?>
@@ -89,7 +89,6 @@
                 <label for="range-1b">Rangeslider:</label>
                 <input type="range" name="range-1b" id="range-1b" min="0" max="100" value="80">
             </div>
-        </form>
         </form>
         </div><!-- /demo-html -->
 
