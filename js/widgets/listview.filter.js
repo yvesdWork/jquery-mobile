@@ -33,9 +33,6 @@ $.mobile.document.delegate( "ul, ol", "listviewcreate", function() {
 		list.children().addClass( "ui-screen-hidden" );
 	}
 
-	// Make sure the textinput is available
-	$.mobile._enhancer.define( "mobile.textinput" );
-
 	var wrapper = $( "<form>", {
 			"class": "ui-listview-filter ui-bar-" + listview.options.filterTheme,
 			"role": "search"
