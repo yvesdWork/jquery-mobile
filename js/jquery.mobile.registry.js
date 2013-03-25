@@ -37,11 +37,12 @@ $.extend( Enhancer.prototype, {
 			name = parts[ 1 ],
 			self = this,
 			ret = function( targetEl ) {
-				var targets = { length: 0 };
+				var targets = { length: 0 },
+					definition = ( $[ ns ] ? $[ ns ][ name ] : undefined );
 
 				// If the widget is not defined, and we have an initSelector associated
 				// with it, then we need to define it if the initSelector applies
-				if ( !( $[ ns ] && $[ ns ][ name ] ) ) {
+				if ( !definition || $.type( definition ) === "object" ) {
 					entry = self._defines[ widget ];
 
 					if ( entry && entry.initSelector ) {
@@ -62,6 +63,7 @@ $.extend( Enhancer.prototype, {
 
 	define: function( widget ) {
 		var idx, parts, widgetns, widgetname, base, basens, basename,
+			placeholderClass, key, actualDefinition,
 			entry = this._defines[ widget ];
 
 		if ( entry ) {
@@ -84,10 +86,26 @@ $.extend( Enhancer.prototype, {
 
 			// Then, stack each proto onto the namespace
 			if ( entry.protos ) {
+
+				// First, remove the placeholder, and undefine the namespace
+				placeholderClass = $[ widgetns ][ widgetname ];
+				$[ widgetns ][ widgetname ] = undefined;
+
+				// Then, stack the protos on top of each other with $.widget
 				for ( idx in entry.protos ) {
 					$.widget( widget, base, entry.protos[ idx ] );
 					base = $[ widgetns ][ widgetname ];
 				}
+
+				// Transfer properties (except "prototype" ) declared on the placeholder
+				// to the actual definition
+				actualDefinition = $[ widgetns ][ widgetname ];
+				for ( key in placeholderClass ) {
+					if ( key !== "prototype" ) {
+						actualDefinition[ key ] = placeholderClass[ key ];
+					}
+				}
+
 			}
 
 			// Get rid of this widget definition so we don't run it again
@@ -96,11 +114,47 @@ $.extend( Enhancer.prototype, {
 		}
 	},
 
+	// Define accessors for a widget class's jQuery selector and plugin. The
+	// assumption is that, when the getter is called, if the widget class is not
+	// yet defined, calling this.define( name ) will cause the widget class to be
+	// defined, which, in turn, will cause the setter to be called. The setter
+	// then records the value.
+	_defineAccessor: function( where, propName, name, namespace, widgetName ) {
+		var value;
+
+		where.__defineGetter__( propName, $.proxy( function() {
+			if ( $.type( $[ namespace ][ widgetName ] ) === "object" ) {
+				this.define( name );
+			}
+			return value;
+		}, this ) );
+		where.__defineSetter__( propName, function( v ) {
+			value = v;
+		});
+	},
+
 	addDefinition: function( name, options ) {
-		var entry = this._defines[ name ] || {},
+		var parts, namespace, widgetName, placeholderClass, actualDefinition,
+			entry = this._defines[ name ],
 			base = options.base,
 			proto = options.proto,
 			initSelector = options.initSelector;
+
+		if ( !entry ) {
+			entry = {};
+			parts = name.split( "." );
+			namespace = parts[ 0 ];
+			widgetName = parts[ 1 ];
+			$[ namespace ] = $[ namespace ] || {};
+			$[ namespace ][ widgetName ] = placeholderClass = {};
+
+			this._defineAccessor( $.fn, widgetName, name, namespace, widgetName );
+			this._defineAccessor( $.expr, namespace + "-" + widgetName, name, namespace, widgetName );
+			placeholderClass.__defineGetter__( "prototype", $.proxy( function() {
+				this.define( name );
+				return $[ namespace ][ name ].prototype;
+			}, this ) );
+		}
 
 		// base can only be set once
 		if ( !entry.base && base ) {
