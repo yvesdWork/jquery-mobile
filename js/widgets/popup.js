@@ -203,12 +203,12 @@ $.widget( "mobile.popup", $.mobile.widget, {
 	_create: function() {
 		var ui = {
 				screen: $( "<div class='ui-screen-hidden ui-popup-screen'></div>" ),
-				placeholder: $( "<div style='display: none;'><!-- placeholder --></div>" ),
 				container: $( "<div class='ui-popup-container ui-popup-hidden'></div>" )
 			},
 			thisPage = this.element.closest( ".ui-page" ),
 			myId = this.element.attr( "id" ),
-			o = this.options;
+			o = this.options,
+			theBody = $( "body" );
 
 		// We need to adjust the history option to be false if there's no AJAX nav.
 		// We can't do it in the option declarations because those are run before
@@ -216,18 +216,15 @@ $.widget( "mobile.popup", $.mobile.widget, {
 		o.history = o.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled;
 
 		if ( thisPage.length === 0 ) {
-			thisPage = $( "body" );
+			thisPage = theBody;
 		}
 
 		// Apply the proto
-		thisPage.append( ui.screen );
-		ui.container.insertAfter( ui.screen );
-		// Leave a placeholder where the element used to be
-		ui.placeholder.insertAfter( this.element );
+		ui.container.insertAfter( this.element );
+		theBody.append( ui.screen );
 		if ( myId ) {
 			ui.screen.attr( "id", myId + "-screen" );
 			ui.container.attr( "id", myId + "-popup" );
-			ui.placeholder.html( "<!-- placeholder for " + myId + " -->" );
 		}
 		this.element
 			.addClass( "ui-popup" )
@@ -305,6 +302,7 @@ $.widget( "mobile.popup", $.mobile.widget, {
 			screen = this._ui.screen;
 
 		if ( o.theme !== undefined ) {
+			console.log( "_setOptions: theme: " + o.theme );
 			this._applyTheme( el, o.theme, "body" );
 		}
 
@@ -622,8 +620,7 @@ $.widget( "mobile.popup", $.mobile.widget, {
 			https://github.com/jquery/jquery-mobile/issues/4874
 			*/
 
-			// TODO sort out why this._page isn't working
-			this.element.closest( ".ui-page" ).addClass( "ui-popup-open" );
+			this._page.addClass( "ui-popup-open" );
 		}
 		this._animate({
 			additionalCondition: true,
@@ -690,7 +687,6 @@ $.widget( "mobile.popup", $.mobile.widget, {
 	},
 
 	_unenhance: function() {
-		// Put the element back to where the placeholder was and remove the "ui-popup" class
 		this._setOptions( { theme: $.mobile.popup.prototype.options.theme } );
 		this.element
 			// Cannot directly insertAfter() - we need to detach() first, because
@@ -700,11 +696,10 @@ $.widget( "mobile.popup", $.mobile.widget, {
 			// If that happens and we remove the container a few lines below, we
 			// will cause an infinite recursion - #5244
 			.detach()
-			.insertAfter( this._ui.placeholder )
+			.insertAfter( this._ui.container )
 			.removeClass( "ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit" );
 		this._ui.screen.remove();
 		this._ui.container.remove();
-		this._ui.placeholder.remove();
 	},
 
 	_destroy: function() {

@@ -43,7 +43,7 @@ define( [
 				"<div data-" + $.mobile.ns + "role='content'></div>"+
 				"</div>" ),
 
-			listbox =  $( "<div id='" + popupID + "' class='ui-selectmenu'>" ).insertAfter( widget.select ).popup({ theme: widget.options.overlayTheme }),
+			listbox =  $( "<div id='" + popupID + "' class='ui-selectmenu'>" ).insertAfter( widget.select.parent() ).popup({ theme: widget.options.overlayTheme }),
 			
 			list = $( "<ul class='ui-selectmenu-list' id='" + menuId + "' role='listbox' aria-labelledby='" + buttonId + "'" + themeAttr + dividerThemeAttr + ">" ).appendTo( listbox ),
 
