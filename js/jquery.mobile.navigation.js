@@ -745,7 +745,7 @@ define( [
 
 					// store the original absolute url so that it can be provided
 					// to events in the triggerData of the subsequent changePage call
-					newPage.data( "absUrl", triggerData.absUrl );
+					newPage.data( "absUrl", url );
 					$.mobile.changePage( newPage, options );
 				})
 				.fail(function(/* url, options */) {
@@ -771,9 +771,9 @@ define( [
 		// The caller passed us a real page DOM element. Update our
 		// internal state and then trigger a transition to the page.
 		fromPage = settings.fromPage;
-		url = ( settings.dataUrl && path.convertUrlToDataUrl( settings.dataUrl ) ) || toPage.jqmData( "url" );
-		// The pageUrl var is usually the same as url, except when url is obscured as a dialog url. pageUrl always contains the file path
-		pageUrl = url;
+        url = toPage.data( "absUrl" );
+        // The pageUrl var is usually the same as url, except when url is obscured as a dialog url. pageUrl always contains the file path
+        pageUrl = ( settings.dataUrl && path.convertUrlToDataUrl( settings.dataUrl ) ) || toPage.jqmData( "url" );
 		fileUrl = path.getFilePath( url );
 		active = urlHistory.getActive();
 		activeIsInitialPage = urlHistory.activeIndex === 0;
