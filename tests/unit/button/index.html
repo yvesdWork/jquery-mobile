@@ -15,8 +15,12 @@
 	<link rel="stylesheet"  href="../../../css/themes/default/jquery.mobile.css"/>
 	<link rel="stylesheet" href="../../../external/qunit.css"/>
 	<script src="../../../external/qunit.js"></script>
-	<script>
-		$.testHelper.asyncLoad([
+
+    <script src="../../../external/blanketjs/blanket.js" data-cover-flags="branchTracking"></script>
+
+    <script>
+        $.testHelper.addTestedModules( "widgets/forms/button" );
+        $.testHelper.asyncLoad([
 			[
 				"widgets/forms/button",
 			],

@@ -23,6 +23,11 @@
 
 	<link rel="stylesheet" href="../../../external/qunit.css"/>
 	<script src="../../../external/qunit.js"></script>
+	<script src="../../../external/blanketjs/blanket.js" data-cover-flags="branchTracking"></script>
+
+	<script>
+		$.testHelper.addTestedModules( [ "events/navigate", "events/orientationchange", "events/throttledresize", "events/touch" ] );
+	</script>
 
 	<script src="event_core.js"></script>
 

@@ -11,7 +11,10 @@
 	<script src="../../jquery.setNameSpace.js"></script>
 	<script src="../../../external/qunit.js"></script>
 	<script src="../../../tests/jquery.testHelper.js"></script>
-	<script>
+    <script src="../../../external/blanketjs/blanket.js" data-cover-flags="branchTracking"></script>
+
+    <script>
+        $.testHelper.addTestedModules( [ "widgets/forms/select", "widgets/forms/select.custom" ] );
 		$.testHelper.asyncLoad([
 			[
 				"widgets/forms/select",

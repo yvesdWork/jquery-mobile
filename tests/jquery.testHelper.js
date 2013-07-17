@@ -442,6 +442,24 @@
 			setTimeout(function() {
 				start();
 			}, milliseconds || 2000 );
-		}
+		},
+
+        addTestedModules: function( modules ) {
+            /*globals blanket:false */
+            if ( blanket ) {
+                blanket.options( "filter", function( filename ) {
+					if ( $.type( modules ) === "array" ) {
+						for ( var i = 0, len = modules.length; i < len; i++ ) {
+							if ( filename.indexOf( modules[ i ] ) != -1 ) {
+								return true;
+							}
+						}
+						return false;
+					}  else {
+						return ( filename.indexOf( modules ) != -1 );
+					}
+                });
+            }
+        }
 	};
 })(jQuery);

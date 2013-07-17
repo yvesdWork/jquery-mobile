@@ -10,7 +10,10 @@
 	<script src="../../../js/jquery.tag.inserter.js"></script>
 	<script src="../../../external/qunit.js"></script>
 	<script src="../../../tests/jquery.testHelper.js"></script>
-	<script>
+    <script src="../../../external/blanketjs/blanket.js" data-cover-flags="branchTracking"></script>
+
+    <script>
+        $.testHelper.addTestedModules( "widgets/forms/textinput" );
 		$.testHelper.asyncLoad([
 			[ "widgets/forms/textinput" ],
 			[ "settings.js" ],

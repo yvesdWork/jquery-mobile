@@ -15,6 +15,8 @@
 	<link rel="stylesheet"  href="../../../css/themes/default/jquery.mobile.css"/>
 	<link rel="stylesheet" href="../../../external/qunit.css"/>
 	<script src="../../../external/qunit.js"></script>
+    <script src="../../../external/blanketjs/blanket.js" data-cover-flags="branchTracking"></script>
+
 	<script>
 		( function( $, undefined ) {
 			// Set the default transition to "fade" if specified in the query
@@ -25,7 +27,8 @@
 			}
 		})( jQuery );
 	</script>
-	<script>
+    <script>
+        $.testHelper.addTestedModules( "widgets/popup" );
 		$.testHelper.asyncLoad([
 			[
 				"widgets/popup",

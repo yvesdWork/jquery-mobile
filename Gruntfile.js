@@ -455,6 +455,20 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		"qunit-blanket": {
+			options: {
+				reporters: [
+					"console",
+					{
+						name: "cobertura",
+						options: {
+							output: "dist/coverage.xml"
+						}
+					}
+				]
+			}
+		},
+
 		qunit: {
 			options: {
 				timeout: 30000
@@ -464,6 +478,7 @@ module.exports = function( grunt ) {
 
 			http: {
 				options: {
+					inject: [ "node_modules/grunt-contrib-qunit/phantomjs/bridge.js", "tests/blanket-bridge.js" ],
 					urls: (function() {
 						// Find the test files
 						var suites = _.without( ( grunt.option( "suites" ) || "" ).split( "," ), "" ),
@@ -598,7 +613,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( "dist:release", [ "release:init", "dist", "cdn" ] );
 	grunt.registerTask( "dist:git", ["dist", "copy:git"] );
 
-	grunt.registerTask( "test", [ "jshint", "config:fetchHeadHash", "js:release", "connect", "qunit:http" ] );
+	grunt.registerTask( "test", _.compact( [ "jshint", "config:fetchHeadHash", "js:release", "connect", grunt.option( "coverage" ) ? "qunit-blanket" : undefined, "qunit:http" ] ) );
 	grunt.registerTask( "test:ci", [ "qunit_junit", "connect", "qunit:http" ] );
 
 	grunt.registerTask( "deploy", [ "release:init", "release:fail-if-pre", "dist:release", "rsync:release" ] );
