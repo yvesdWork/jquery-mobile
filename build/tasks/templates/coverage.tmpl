@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-03.dtd"-->
+
+<coverage line-rate="{{lineRate}}" branch-rate="{{branchRate}}" version="1.9" timestamp="{{timeStamp}}">
+    <sources>
+        <source>{{rootPath}}</source>
+        <source>--source</source>
+    </sources>
+    <packages>{{#each packages}}
+        <package name="{{packageName}}" line-rate="{{lineRate}}" branch-rate="{{branchRate}}" complexity="{{complexity}}">
+            <classes>{{#each klasses}}
+                <class name="{{className}}" filename="{{fileName}}" line-rate="{{lineRate}}" branch-rate="{{branchRate}}" complexity="{{complexity}}">
+                    <lines>{{#each lines}}
+                        <line number="{{number}}" hits="{{hits}}" branch="{{branch}}"/>{{/each}}
+                    </lines>
+                </class>{{/each}}
+            </classes>
+        </package>{{/each}}
+    </packages>
+</coverage>
+
