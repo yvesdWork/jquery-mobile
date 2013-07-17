@@ -17,8 +17,8 @@ $.widget( "mobile.listview", $.extend( {
 		theme: null,
 		countTheme: null,
 		dividerTheme: null,
-		icon: "arrow-r",
-		splitIcon: "arrow-r",
+		icon: "carat-r",
+		splitIcon: "carat-r",
 		splitTheme: null,
 		corners: true,
 		shadow: true,
@@ -195,7 +195,8 @@ $.widget( "mobile.listview", $.extend( {
 		this._addFirstLastClasses( li, this._getVisibles( li, create ), create );
 		// autodividers binds to this to redraw dividers after the listview refresh
 		this._trigger( "afterrefresh" );
-	}}, $.mobile.behaviors.addFirstLastClasses ) );
+	}
+}, $.mobile.behaviors.addFirstLastClasses ) );
 
 $.mobile.listview.initSelector = ":jqmData(role='listview')";
 
