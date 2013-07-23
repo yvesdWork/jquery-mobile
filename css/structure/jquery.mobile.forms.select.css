@@ -1,15 +1,13 @@
 .ui-select {
-	margin: .5em 0;
+	margin-top: .5em;
+	margin-bottom: .5em; /* no shorthand for margin because it would override margin-right for inline selects */
 	position: relative;
 }
 .ui-select > select {
 	position: absolute !important;
-	top: -9999px;
-	left: -9999px;
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	clip: rect(1px 1px 1px 1px);
 	clip: rect(1px,1px,1px,1px);
 }
 .ui-select .ui-btn {

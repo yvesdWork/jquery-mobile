@@ -8,7 +8,7 @@ define( [ "jquery", "./jquery.mobile.ns", "jquery.ui.widget" ], function( jQuery
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.widget", {
+$.extend( $.Widget.prototype, {
 	_getCreateOptions: function() {
 
 		var elem = this.element,
@@ -20,12 +20,23 @@ $.widget( "mobile.widget", {
 							return "-" + c.toLowerCase();
 						}), true );
 
-			if ( value !== undefined ) {
+			if ( value != null ) {
 				options[ option ] = value;
 			}
 		});
 
 		return options;
+	},
+
+	// FIXME: These have to stay in place until we're running on a version of
+	// the widget factory that does enable()/disable() via _setOptions, as in
+	// https://github.com/jquery/jquery-ui/pull/1024
+	enable: function() {
+		return this._setOptions({ disabled: false });
+	},
+
+	disable: function() {
+		return this._setOptions({ disabled: true });
 	},
 
 	enhanceWithin: function( target, useKeepNative ) {
@@ -51,13 +62,10 @@ $.widget( "mobile.widget", {
 		}
 
 		$widgetElements[ this.widgetName ]();
-	},
-
-	raise: function( msg ) {
-		throw "Widget [" + this.widgetName + "]: " + msg;
 	}
 });
-
+//TODO: Remove in 1.5 for backcompat only
+$.mobile.widget = $.Widget;
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);
 });

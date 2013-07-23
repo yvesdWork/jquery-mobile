@@ -9,11 +9,11 @@ define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", ".
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-$.widget( "mobile.selectmenu", $.mobile.widget, $.extend( {
+$.widget( "mobile.selectmenu", $.extend( {
 	options: {
 		theme: null,
 		disabled: false,
-		icon: "arrow-d",
+		icon: "carat-d",
 		iconpos: "right",
 		inline: false,
 		corners: true,

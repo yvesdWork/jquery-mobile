@@ -4,15 +4,13 @@
 //>>group: Widgets
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
-define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core","./jquery.ui.tabs", "../jquery.mobile.registry" ], function( jQuery ) {
+define( [ "jquery", "../jquery.mobile.widget", "../jquery.ui.core","./jquery.ui.tabs", "../jquery.mobile.registry" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-	$.widget("mobile.tabs", $.mobile.widget, $.ui.tabs.prototype);
+	$.ui.tabs.initSelector = ":jqmData(role='tabs'), :jqmData(content='tabs')";
 
-	$.mobile.tabs.initSelector = ":jqmData(role='tabs'), :jqmData(content='tabs')";
-
-	$.mobile._enhancer.add( "mobile.tabs" );
+	$.mobile._enhancer.add( "ui.tabs" );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

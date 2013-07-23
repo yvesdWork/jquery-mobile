@@ -11,14 +11,14 @@ define( [ "jquery", "../jquery.mobile.widget", "./page", "./addFirstLastClasses"
 
 var getAttr = $.mobile.getAttribute;
 
-$.widget( "mobile.listview", $.mobile.widget, $.extend( {
+$.widget( "mobile.listview", $.extend( {
 
 	options: {
 		theme: null,
 		countTheme: null,
 		dividerTheme: null,
-		icon: "arrow-r",
-		splitIcon: "arrow-r",
+		icon: "carat-r",
+		splitIcon: "carat-r",
 		splitTheme: null,
 		corners: true,
 		shadow: true,
@@ -195,7 +195,8 @@ $.widget( "mobile.listview", $.mobile.widget, $.extend( {
 		this._addFirstLastClasses( li, this._getVisibles( li, create ), create );
 		// autodividers binds to this to redraw dividers after the listview refresh
 		this._trigger( "afterrefresh" );
-	}}, $.mobile.behaviors.addFirstLastClasses ) );
+	}
+}, $.mobile.behaviors.addFirstLastClasses ) );
 
 $.mobile.listview.initSelector = ":jqmData(role='listview')";
 

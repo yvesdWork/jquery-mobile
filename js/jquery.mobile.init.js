@@ -6,6 +6,7 @@
 
 define([
 	"jquery",
+	"./jquery.ui.core",
 	"./jquery.mobile.defaults",
 	"./jquery.mobile.helpers",
 	"./jquery.mobile.data",
@@ -78,7 +79,10 @@ define([
 			$.mobile.firstPage = $pages.first();
 
 			// define page container
-			$.mobile.pageContainer = $.mobile.firstPage.parent().addClass( "ui-mobile-viewport" );
+			$.mobile.pageContainer = $.mobile.firstPage
+        .parent()
+        .addClass( "ui-mobile-viewport" )
+        .content();
 
 			// initialize navigation events now, after mobileinit has occurred and the page container
 			// has been created but before the rest of the library is alerted to that fact
@@ -140,6 +144,9 @@ define([
 	// then check what the scroll top is. Android will report 0... others 1
 	// note that this initial scroll won't hide the address bar. It's just for the check.
 	$(function() {
+		//Run inlineSVG support test
+		$.support.inlineSVG();
+		
 		window.scrollTo( 0, 1 );
 
 		// if defaultHomeScroll hasn't been set yet, see if scrollTop is 1

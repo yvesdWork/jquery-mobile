@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 		copyrightYear = grunt.template.today( "UTC:yyyy" ),
 		banner = {
 			normal: [
-				"/*",
+				"/*!",
 				"* jQuery Mobile <%= version %>",
 				"* <%if ( headHash ) {%>Git HEAD hash: <%= headHash %> <> <% } %>Date: "+ grunt.template.today( "UTC:ddd mmm d yyyy HH:MM:ss Z" ),
 				"* http://jquerymobile.com",
@@ -70,7 +70,8 @@ module.exports = function( grunt ) {
 						"!js/jquery.hashchange.js",
 						"!js/jquery.js",
 						"!js/jquery.ui.widget.js",
-						"!js/widgets/jquery.ui.tabs.js"
+						"!js/widgets/jquery.ui.tabs.js",
+						"!js/jquery.ui.core.js"
 					]
 				}
 			},
