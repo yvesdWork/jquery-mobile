@@ -55,16 +55,16 @@ $.widget( "mobile.button", {
 	},
 
 	_button: function() {
-		return $("<div class='ui-btn ui-input-btn " +
-			this.options.wrapperClass +
-			" ui-btn-" + this.options.theme +
+		return $("<div class='ui-btn ui-input-btn" +
+			( this.options.wrapperClass ? " " + this.options.wrapperClass : "" ) +
+			( this.options.theme ? " ui-btn-" + this.options.theme : "" ) +
 			( this.options.corners ? " ui-corner-all" : "" ) +
 			( this.options.shadow ? " ui-shadow" : "" ) +
 			( this.options.inline ? " ui-btn-inline" : "" ) +
 			( this.options.mini ? " ui-mini" : "" ) +
 			( this.options.disabled ? " ui-disabled" : "" ) +
-			( this.options.iconpos ? " ui-btn-icon-" + this.options.iconpos : ( this.options.icon ? " ui-btn-icon-left" : "" ) ) +
-			( this.options.icon ? "ui-icon-" + this.options.icon : "" ) +
+			( ( this.options.iconpos && this.options.icon ) ? " ui-btn-icon-" + this.options.iconpos : ( this.options.icon ? " ui-btn-icon-left" : "" ) ) +
+			( this.options.icon ? " ui-icon-" + this.options.icon : "" ) +
 			"' >" + this.element.val() + "</div>");
 	},
 
@@ -115,7 +115,7 @@ $.widget( "mobile.button", {
 	}
 });
 
-$.mobile.button.initSelector = "[type='button'], [type='submit'], [type='reset']";
+$.mobile.button.initSelector = "input[type='button'], input[type='submit'], input[type='reset']";
 
 //auto self-init widgets
 $.mobile._enhancer.add( "mobile.button" );

@@ -27,6 +27,11 @@ $.mobile.filterable.prototype.options.filterCallback = function( index, searchVa
 };
 
 $.widget( "mobile.filterable", $.mobile.filterable, {
+	options: {
+		filterPlaceholder: "Filter items...",
+		filterTheme: null
+	},
+
 
 	_create: function() {
 		var idx, widgetName,
@@ -78,6 +83,10 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 	},
 
 	_setInput: function( selector ) {
+		var opts = this.options,
+			updatePlaceholder = true,
+			textinputOpts = {};
+
 		if ( !selector ) {
 			if ( this._isSearchInternal() ) {
 
@@ -85,20 +94,53 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 				// the current textinput is already of the internally generated variety.
 				return;
 			} else {
+
+				// Generating a new textinput widget. No need to set the placeholder
+				// further down the function.
+				updatePlaceholder = false;
 				selector = $( "<input " +
 					"data-" + $.mobile.ns + "type='search' " +
-					"placeholder='" + this.options.filterPlaceholder + "'></input>" )
+					"placeholder='" + opts.filterPlaceholder + "'></input>" )
 					.jqmData( "ui-filterable-" + this.uuid + "-internal", true );
 				$( "<form class='ui-filterable'></form>" )
 					.append( selector )
+					.submit( function( evt ) {
+						evt.preventDefault();
+						selector.blur();
+					})
 					.insertBefore( this.element );
 				if ( $.mobile.textinput ) {
-					selector.textinput();
+					if ( this.options.filterTheme != null ) {
+						textinputOpts[ "theme" ] = opts.filterTheme;
+					}
+
+					selector.textinput( textinputOpts );
 				}
 			}
 		}
 
 		this._super( selector );
+
+		if ( this._search && updatePlaceholder ) {
+			this._search.attr( "placeholder", this.options.filterPlaceholder );
+		}
+	},
+
+	_setOptions: function( options ) {
+		var ret = this._super( options );
+
+		// Need to set the filterPlaceholder after having established the search input
+		if ( options.filterPlaceholder !== undefined ) {
+			if ( this._search ) {
+				this._search.attr( "placeholder", options.filterPlaceholder );
+			}
+		}
+
+		if ( options.filterTheme !== undefined && this._search && $.mobile.textinput ) {
+			this._search.textinput( "option", "theme", options.filterTheme );
+		}
+
+		return ret;
 	},
 
 	_destroy: function() {
@@ -119,7 +161,11 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 			// Apply only the options understood by textinput
 			for ( idx in $.mobile.textinput.prototype.options ) {
 				if ( options[ idx ] !== undefined ) {
-					textinputOptions[ idx ] = options[ idx ];
+					if ( idx === "theme" && this.options.filterTheme != null ) {
+						textinputOptions[ idx ] = this.options.filterTheme;
+					} else {
+						textinputOptions[ idx ] = options[ idx ];
+					}
 				}
 			}
 			this._search.textinput( "option", textinputOptions );
