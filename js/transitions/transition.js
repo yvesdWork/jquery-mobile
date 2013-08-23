@@ -37,8 +37,10 @@ define( [ "jquery",
 		},
 
 		cleanFrom: function() {
+			var activePageClass = ( this.$from[ 0 ] !== this.$to[ 0 ] ) ? $.mobile.activePageClass + " " : "";
+
 			this.$from
-				.removeClass( $.mobile.activePageClass + " out in reverse " + this.name )
+				.removeClass( activePageClass + "out in reverse " + this.name )
 				.height( "" );
 		},
 
