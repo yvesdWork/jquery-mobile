@@ -129,7 +129,7 @@ define( [
 	$.mobile.changePage.defaults = {
 		transition: undefined,
 		reverse: false,
-		changeHash: true,
+		changeHash: $.support.history,
 		fromHashChange: false,
 		role: undefined, // By default we rely on the role defined by the @data-role attribute.
 		duplicateCachedPage: undefined,
