@@ -221,6 +221,10 @@ $.extend( $.support, {
 		!( window.navigator.userAgent.indexOf( "Firefox" ) >= 0 && window.top !== window ) &&
 		( window.navigator.userAgent.search(/CriOS/) === -1 ),
 
+	// iOS 7 fullscreen webapps do not support browser history. This method for
+	// detecting fullscreen-ness seen here:
+	// http://www.bennadel.com/blog/1950-Detecting-iPhone-s-App-Mode-Full-Screen-Mode-For-Web-Applications.htm
+	history: !window.navigator.standalone,
 	mediaquery: $.mobile.media( "only all" ),
 	cssPseudoElement: !!propExists( "content" ),
 	touchOverflow: !!propExists( "overflowScrolling" ),
