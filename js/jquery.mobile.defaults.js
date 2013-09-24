@@ -43,7 +43,7 @@ define( [ "jquery", "./jquery.mobile.ns", "json!../package.json" ], function( jQ
 		ajaxEnabled: true,
 
 		// Automatically load and show pages based on location.hash
-		hashListeningEnabled: true,
+		hashListeningEnabled: $.support.history,
 
 		// disable to prevent jquery from bothering with links
 		linkBindingEnabled: true,
