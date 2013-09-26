@@ -22,7 +22,6 @@ input.ui-slider-input {
 	width: 40px;
 	height: 20px;
 	line-height: 20px;
-	background-image: none;
 	border-width: 1px;
 	border-style: solid;
 	outline: 0;
@@ -116,6 +115,7 @@ div.ui-slider-switch.ui-mini {
 .ui-slider-handle-snapping {
 	-webkit-transition: left 70ms linear;
 	-moz-transition: left 70ms linear;
+	transition: left 70ms linear;
 }
 .ui-slider-switch .ui-slider-label {
 	position: absolute;
@@ -154,6 +154,7 @@ div.ui-slider-switch.ui-mini {
 	margin: 0;
 }
 @media (min-width: 28em) {
+	/* ui-hide-label deprecated in 1.4. TODO: Remove in 1.5 */
 	.ui-field-contain div.ui-slider-switch,
 	.ui-field-contain.ui-hide-label div.ui-slider-switch {
 		display: inline-block;

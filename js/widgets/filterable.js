@@ -2,6 +2,7 @@
 //>>description: Renders the children of an element filterable via a callback and a textinput
 //>>label: Filterable
 //>>group: Widgets
+//>>css.structure: ../css/structure/jquery.mobile.filterable.css
 
 define( [ "jquery",
 	"jquery.mobile.widget" ], function( jQuery ) {
@@ -10,18 +11,20 @@ define( [ "jquery",
 
 // TODO rename filterCallback/deprecate and default to the item itself as the first argument
 var defaultFilterCallback = function( index, searchValue ) {
-	return ( ( "" + ( $.mobile.getAttribute( this, "filtertext", true ) || $( this ).text() ) )
+	return ( ( "" + ( $.mobile.getAttribute( this, "filtertext" ) || $( this ).text() ) )
 		.toLowerCase().indexOf( searchValue ) === -1 );
 };
 
 $.widget( "mobile.filterable", {
+
+	initSelector: ":jqmData(filter='true')",
 
 	options: {
 		filterReveal: false,
 		filterCallback: defaultFilterCallback,
 		enhanced: false,
 		input: null,
-		children: "> li, > option, tbody tr, .ui-controlgroup-controls .ui-btn"
+		children: "> li, > option, > optgroup option, > tbody tr, > .ui-controlgroup-controls > .ui-btn, > .ui-controlgroup-controls > .ui-checkbox, > .ui-controlgroup-controls > .ui-radio"
 	},
 
 	_create: function() {
@@ -44,7 +47,7 @@ $.widget( "mobile.filterable", {
 
 		if ( search ) {
 			val = search.val().toLowerCase(),
-			lastval = $.mobile.getAttribute( search[ 0 ], "lastval", true ) + "";
+			lastval = $.mobile.getAttribute( search[ 0 ], "lastval" ) + "";
 
 			if ( lastval && lastval === val ) {
 				// Execute the handler only once per value change
@@ -197,11 +200,6 @@ $.widget( "mobile.filterable", {
 		this._filterItems( ( ( this._search && this._search.val() ) || "" ).toLowerCase() );
 	}
 });
-
-$.mobile.filterable.initSelector = ":jqmData(filter='true')";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.filterable" );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

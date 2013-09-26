@@ -5,11 +5,13 @@
 //>>css.structure: ../css/structure/jquery.mobile.forms.select.css
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
-define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.zoom", "./reset", "../../jquery.mobile.registry" ], function( jQuery ) {
+define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.zoom", "./reset" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
 $.widget( "mobile.selectmenu", $.extend( {
+	initSelector: "select:not( :jqmData(role='slider')):not( :jqmData(role='flipswitch') )",
+
 	options: {
 		theme: null,
 		disabled: false,
@@ -76,7 +78,7 @@ $.widget( "mobile.selectmenu", $.extend( {
 		}
 
 		this.select = this.element.removeClass( "ui-btn-left ui-btn-right" ).wrap( "<div class='ui-select" + classes + "'>" );
-		this.selectId  = this.select.attr( "id" );
+		this.selectId  = this.select.attr( "id" ) || ( "select-" + this.uuid );
 		this.buttonId = this.selectId + "-button";
 		this.label = $( "label[for='"+ this.selectId +"']" );
 		this.isMultiple = this.select[ 0 ].multiple;
@@ -127,7 +129,7 @@ $.widget( "mobile.selectmenu", $.extend( {
 		// Add counter for multi selects
 		if ( this.isMultiple ) {
 			this.buttonCount = $( "<span>" )
-				.addClass( "ui-li-count" )
+				.addClass( "ui-li-count ui-body-inherit" )
 				.hide()
 				.appendTo( button.addClass( "ui-li-has-count" ) );
 		}
@@ -147,6 +149,10 @@ $.widget( "mobile.selectmenu", $.extend( {
 		});
 
 		this._handleFormReset();
+
+		this._on( this.button, {
+			keydown: "_handleKeydown"
+		});
 
 		this.build();
 	},
@@ -245,7 +251,8 @@ $.widget( "mobile.selectmenu", $.extend( {
 			// TODO possibly aggregate multiple select option classes
 			return span
 				.addClass( self.select.attr( "class" ) )
-				.addClass( selected.attr( "class" ) );
+				.addClass( selected.attr( "class" ) )
+				.removeClass( "ui-screen-hidden" );
 		})());
 	},
 
@@ -258,13 +265,21 @@ $.widget( "mobile.selectmenu", $.extend( {
 		}
 	},
 
+	_handleKeydown: function( /* event */ ) {
+		this._delay( "_refreshButton" );
+	},
+
 	_reset: function() {
 		this.refresh();
 	},
 
-	refresh: function() {
+	_refreshButton: function() {
 		this.setButtonText();
 		this.setButtonCount();
+	},
+
+	refresh: function() {
+		this._refreshButton();
 	},
 
 	// open and close preserved in native selects
@@ -283,10 +298,6 @@ $.widget( "mobile.selectmenu", $.extend( {
 	}
 }, $.mobile.behaviors.formReset ) );
 
-$.mobile.selectmenu.initSelector = "select:not( :jqmData(role='slider')):not( :jqmData(role='flipswitch') )";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.selectmenu" );
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);
 });

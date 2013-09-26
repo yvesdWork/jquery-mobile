@@ -21,7 +21,7 @@ define( [
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
-var unfocusableItemSelector = ".ui-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
+var unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
 	goToAdjacentItem = function( item, target, direction ) {
 		var adjacent = item[ direction + "All" ]()
 			.not( unfocusableItemSelector )
@@ -51,6 +51,11 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 	_handleSelectFocus: function() {
 		this.element.blur();
 		this.button.focus();
+	},
+
+	_handleKeydown: function( event ) {
+		this._super( event );
+		this._handleButtonVclickKeydown( event );
 	},
 
 	_handleButtonVclickKeydown: function( event ) {
@@ -128,7 +133,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 	},
 
 	build: function() {
-		var selectId, prefix, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayThemeAttr,
+		var selectId, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayThemeAttr,
 			dividerThemeAttr, menuPage, listbox, list, header, headerTitle, menuPageContent, menuPageClose, headerClose, self,
 			o = this.options;
 
@@ -138,9 +143,8 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 		self = this;
 		selectId = this.selectId;
-		prefix = ( selectId ? selectId : ( ( $.mobile.ns || "" ) + "uuid-" + this.uuid ) );
-		popupId = prefix + "-listbox";
-		dialogId = prefix + "-dialog";
+		popupId = selectId + "-listbox";
+		dialogId = selectId + "-dialog";
 		label = this.label;
 		thisPage = this.element.closest( ".ui-page" );
 		isMultiple = this.element[ 0 ].multiple;
@@ -204,8 +208,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 		// Button events
 		this._on( this.button, {
-			vclick : "_handleButtonVclickKeydown",
-			keydown : "_handleButtonVclickKeydown"
+			vclick: "_handleButtonVclickKeydown"
 		});
 
 		// Events for list items
@@ -216,11 +219,11 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 			keydown: "_handleListKeydown"
 		});
 		this.list
-			.delegate( "li:not(.ui-disabled, .ui-li-divider)", "click", function( event ) {
+			.delegate( "li:not(.ui-disabled,.ui-state-disabled,.ui-li-divider)", "click", function( event ) {
 
 				// index of option tag to be selected
 				var oldIndex = self.select[ 0 ].selectedIndex,
-					newIndex = $.mobile.getAttribute( this, "option-index", true ),
+					newIndex = $.mobile.getAttribute( this, "option-index" ),
 					option = self._selectOptions().eq( newIndex )[ 0 ];
 
 				// toggle selected status on the tag for multi selects
@@ -268,7 +271,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 	_isRebuildRequired: function() {
 		var list = this.list.find( "li" ),
-			options = this._selectOptions();
+			options = this._selectOptions().not( ".ui-screen-hidden" );
 
 		// TODO exceedingly naive method to determine difference
 		// ignores value changes etc in favor of a forcedRebuild
@@ -355,7 +358,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 	_decideFormat: function() {
 		var self = this,
-			$window = $.mobile.window,
+			$window = this.window,
 			selfListParent = self.list.parent(),
 			menuHeight = selfListParent.outerHeight(),
 			scrollTop = $window.scrollTop(),
@@ -415,13 +418,19 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 			optLabel, divider, item;
 
 		self.list.empty().filter( ".ui-listview" ).listview( "destroy" );
-		$options = this.select.find( "option" );
+		$options = this._selectOptions();
 		numOptions = $options.length;
 		select = this.select[ 0 ];
 
 		for ( i = 0; i < numOptions;i++, isPlaceholderItem = false) {
 			option = $options[i];
 			$option = $( option );
+
+			// Do not create options based on ui-screen-hidden select options
+			if ( $option.hasClass( "ui-screen-hidden" ) ) {
+				continue;
+			}
+
 			parent = option.parentNode;
 			text = $option.text();
 			anchor  = document.createElement( "a" );
@@ -538,10 +547,6 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 		this._super();
 	}
 });
-
-//auto self-init widgets - custom select needs to be enhanced after popup to
-// make sure that it reverts to native select
-$.mobile._enhancer.add( "mobile.selectmenu", { dependencies: [ "mobile.popup" ] } );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

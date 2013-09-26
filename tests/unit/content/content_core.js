@@ -4,7 +4,7 @@
 (function($){
 	// TODO !! reset the prototype after every test
 
-	var mockEvent, proto = $.mobile.content.prototype, reset = $.extend( {}, proto );
+	var mockEvent, proto = $.mobile.pagecontainer.prototype, reset = $.extend( {}, proto );
 
 	proto.element = $( "<div>" );
 
@@ -15,7 +15,7 @@
 		}
 	});
 
-	test( "rejects navigate events where the origina event's default is prevented", function(){
+	test( "rejects navigate events where the original event's default is prevented", function(){
 		expect( 1 );
 
 		mockEvent.originalEvent.isDefaultPrevented = function() {
@@ -84,14 +84,14 @@
 
 	module("Content Widget _handleDialog", {
 		setup: function() {
-			proto = $.mobile.content.prototype;
+			proto = $.mobile.pagecontainer.prototype;
 		}
 	});
 
 	test( "continues backward when the active content isn't a dialog", function() {
 		expect( 2 );
 
-		proto._getActiveContent = function() {
+		proto.getActivePage = function() {
 			return $( "<div>" );
 		};
 
@@ -105,7 +105,7 @@
 	test( "continues forward when the active content isn't a dialog", function() {
 		expect( 2 );
 
-		proto._getActiveContent = function() {
+		proto.getActivePage = function() {
 			return $( "<div>" );
 		};
 
@@ -119,7 +119,7 @@
 	test( "extends changePageOptions when current content is a dialog", function() {
 		var result, opts = {};
 
-		proto._getActiveContent = function() {
+		proto.getActivePage = function() {
 			return $( "<div>", {"class": "ui-dialog"} );
 		};
 
@@ -146,7 +146,7 @@
 
 	module("Content Widget _handleDestination", {
 		setup: function() {
-			proto = $.mobile.content.prototype;
+			proto = $.mobile.pagecontainer.prototype;
 			proto._getHistory = function() {
 				return {
 					initialDst: "foo",
@@ -351,7 +351,7 @@
 		}
 	});
 
-	test( "does nothing where the title is alread defined for the page", function() {
+	test( "does nothing where the title is already defined for the page", function() {
 		var html, page, pageHtml;
 
 		pageHtml = "<div data-foo-role='page' data-foo-title='bar'></div>";
@@ -397,7 +397,7 @@
 			equal( data.bar, "baz", "data is passed through" );
 		});
 
-		proto.element.bind( "contentfoo", function( event, data ) {
+		proto.element.bind( "pagecontainerfoo", function( event, data ) {
 			ok( true, "content event trigger" );
 			equal( data.bar, "baz", "data is passed through" );
 		});
@@ -457,7 +457,7 @@
 		proto._loadUrl( "foo", {}, {} );
 	});
 
-	test( "should trigger contentchangefailed on failure", function() {
+	test( "should trigger pagecontainerchangefailed on failure", function() {
 		expect( 2 );
 
 		proto.load = function( to, settings ) {
@@ -467,8 +467,8 @@
 			settings.deferred.reject( "foo", {} );
 		};
 
-		proto.element.bind( "contentchangefailed", function() {
-			ok( true, "contentchangefailed was triggered" );
+		proto.element.bind( "pagecontainerchangefailed", function() {
+			ok( true, "pagecontainerchangefailed was triggered" );
 		});
 
 		proto._loadUrl( "foo", {}, {} );

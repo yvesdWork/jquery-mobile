@@ -10,7 +10,6 @@ define( [ "jquery",
 	"../../jquery.mobile.widget",
 	"./textinput",
 	"./reset",
-	"../optionDemultiplexer",
 	"./slider" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
@@ -123,14 +122,33 @@ define( [ "jquery",
 			}
 		},
 
-		_setOption: function( options ) {
-			this._superApply( options );
+		_setOptions: function( options ) {
+			if ( options.theme !== undefined ) {
+				this._setTheme( options.theme );
+			}
+
+			if ( options.trackTheme !== undefined ) {
+				this._setTrackTheme( options.trackTheme );
+			}
+
+			if ( options.mini !== undefined ) {
+				this._setMini( options.mini );
+			}
+
+			if ( options.highlight !== undefined ) {
+				this._setHighlight( options.highlight );
+			}
+			this._super( options );
 			this.refresh();
 		},
 
 		refresh: function() {
 			var $el = this.element,
 				o = this.options;
+
+			if( this._inputFirst.is( ":disabled" ) || this._inputLast.is( ":disabled" ) ){
+				this.options.disabled = true;
+			}
 
 			$el.find( "input" ).slider({
 				theme: o.theme,
@@ -236,12 +254,7 @@ define( [ "jquery",
 			this.element.find( "input" ).removeClass( "ui-rangeslider-first ui-rangeslider-last" ).slider( "destroy" );
 		}
 
-	}, $.mobile.behaviors.formReset, $.mobile.behaviors.optionDemultiplexer ) );
-
-$.mobile.rangeslider.initSelector = ":jqmData(role='rangeslider')";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.rangeslider", { dependencies: [ "mobile.slider" ] } );
+	}, $.mobile.behaviors.formReset ) );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

@@ -2,10 +2,10 @@
 //>>description: Consistent styling for native select menus. Tapping opens a native select menu.
 //>>label: Flip Switch
 //>>group: Forms
-//>>css.structure: ../css/structure/jquery.mobile.forms.flip.css
+//>>css.structure: ../css/structure/jquery.mobile.forms.flipswitch.css
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
-define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.zoom", "./reset", "../../jquery.mobile.registry" ], function( jQuery ) {
+define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.zoom", "./reset" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
@@ -79,8 +79,8 @@ $.widget( "mobile.flipswitch", $.extend({
 			on = $( "<span tabindex='1'></span>" ),
 			off = $( "<span></span>" ),
 			type = this.element.get( 0 ).tagName,
-			onText = ( type === "INPUT" ) ? this.options.onText : this.element.find( "option" ).eq( 0 ).text(),
-			offText = ( type === "INPUT" ) ? this.options.offText : this.element.find( "option" ).eq( 1 ).text();
+			onText = ( type === "INPUT" ) ? this.options.onText : this.element.find( "option" ).eq( 1 ).text(),
+			offText = ( type === "INPUT" ) ? this.options.offText : this.element.find( "option" ).eq( 0 ).text();
 
 			on.addClass( "ui-flipswitch-on ui-btn ui-shadow ui-btn-inherit" ).text( onText );
 			off.addClass( "ui-flipswitch-off" ).text( offText );
@@ -164,10 +164,6 @@ $.widget( "mobile.flipswitch", $.extend({
 
 }, $.mobile.behaviors.formReset ) );
 
-$.mobile.flipswitch.initSelector = ":jqmData(role='flipswitch')";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.flipswitch" );
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);
 });

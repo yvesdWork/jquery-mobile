@@ -1,19 +1,13 @@
 .ui-input-text,
 .ui-input-search {
-	margin: -.5em -.5em 1.5em -.5em;
-	background-image: none;
+	margin: .5em 0;
 	border-width: 1px;
 	border-style: solid;
-}
-.ui-input-inset,
-textarea.ui-input-text {
-	margin: .5em 0;
 }
 .ui-input-text input,
 .ui-input-search input,
 textarea.ui-input-text {
 	padding: .4em;
-	min-height: 2.2em;
 	line-height: 1.4em;
 	display: block;
 	width: 100%;
@@ -26,6 +20,7 @@ textarea.ui-input-text {
 .ui-input-text input,
 .ui-input-search input {
 	margin: 0;
+	min-height: 2.2em;
 	text-align: left; /* Opera aligns type="date" right by default */
 	border: 0;
 	background: transparent none;
@@ -34,7 +29,6 @@ textarea.ui-input-text {
 	border-radius: inherit;
 }
 textarea.ui-input-text {
-	height: 3.125em;
 	overflow: auto;
 	resize: vertical;
 }
@@ -89,7 +83,7 @@ textarea.ui-mini {
 	position: absolute;
 	right: 0;
 	top: 50%;
-	margin: -15px .3125em 0;
+	margin: -14px .3125em 0;
 	border: 0;
 	background-color: transparent;
 }

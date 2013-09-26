@@ -17,6 +17,9 @@ define( [ "jquery",
 (function( $, undefined ) {
 
 $.widget( "mobile.checkboxradio", $.extend( {
+
+	initSelector: "input:not( :jqmData(role='flipswitch' ) )[type='checkbox'],input[type='radio']:not( :jqmData(role='flipswitch' ))",
+
 	options: {
 		theme: "inherit",
 		mini: false,
@@ -29,12 +32,18 @@ $.widget( "mobile.checkboxradio", $.extend( {
 		var input = this.element,
 			o = this.options,
 			inheritAttr = function( input, dataAttr ) {
-				return input.jqmData( dataAttr ) || input.closest( "form, fieldset" ).jqmData( dataAttr );
+				return input.jqmData( dataAttr ) ||
+					input.closest( "form, fieldset" ).jqmData( dataAttr );
 			},
 			// NOTE: Windows Phone could not find the label through a selector
 			// filter works though.
-			parentLabel = $( input ).closest( "label" ),
-			label = parentLabel.length ? parentLabel : $( input ).closest( "form, fieldset, :jqmData(role='page'), :jqmData(role='dialog')" ).find( "label" ).filter( "[for='" + input[0].id + "']" ).first(),
+			parentLabel = input.closest( "label" ),
+			label = parentLabel.length ? parentLabel :
+				input
+					.closest( "form, fieldset, :jqmData(role='page'), :jqmData(role='dialog')" )
+					.find( "label" )
+					.filter( "[for='" + $.mobile.path.hashToSelector( input[0].id ) + "']" )
+					.first(),
 			inputtype = input[0].type,
 			checkedState = inputtype + "-on",
 			uncheckedState = inputtype + "-off",
@@ -58,6 +67,7 @@ $.widget( "mobile.checkboxradio", $.extend( {
 		$.extend( this, {
 			input: input,
 			label: label,
+			parentLabel: parentLabel,
 			inputtype: inputtype,
 			checkedClass: checkedClass,
 			uncheckedClass: uncheckedClass,
@@ -86,10 +96,18 @@ $.widget( "mobile.checkboxradio", $.extend( {
 	},
 
 	_enhance: function() {
-
 		this.label.addClass( "ui-btn ui-corner-all");
+
+		if( this.parentLabel.length > 0 ){
+			this.input.add( this.label ).wrapAll( this._wrapper() );
+		} else {
+			//this.element.replaceWith( this.input.add( this.label ).wrapAll( this._wrapper() ) );
+			this.element.wrap( this._wrapper() );
+			this.element.parent().prepend( this.label );
+		}
+		
 		// Wrap the input + label in a div
-		this.input.add( this.label ).wrapAll( this._wrapper() );
+		
 		this._setOptions({
 			"theme": this.options.theme,
 			"iconpos": this.options.iconpos,
@@ -99,7 +117,10 @@ $.widget( "mobile.checkboxradio", $.extend( {
 	},
 
 	_wrapper: function() {
-		return $( "<div class='"  + ( this.options.wrapperClass ? this.options.wrapperClass : "" ) + " ui-" + this.inputtype + ( this.options.disabled ? " ui-disabled" : "" ) + "' >" );
+		return $( "<div class='"  +
+			( this.options.wrapperClass ? this.options.wrapperClass : "" ) +
+			" ui-" + this.inputtype +
+			( this.options.disabled ? " ui-state-disabled" : "" ) + "' >" );
 	},
 
 	_handleInputFocus: function() {
@@ -129,18 +150,6 @@ $.widget( "mobile.checkboxradio", $.extend( {
 		if ( this.label.parent().hasClass( "ui-state-disabled" ) ) {
 			event.stopPropagation();
 		}
-	},
-
-	enable: function() {
-		this._setOptions({
-			"disabled": false
-		});
-	},
-
-	disable: function() {
-		this._setOptions({
-			"disabled": true
-		});
 	},
 
 	_handleLabelVClick: function( event ) {
@@ -226,33 +235,36 @@ $.widget( "mobile.checkboxradio", $.extend( {
 	},
 
 	_setOptions: function( options ) {
+		var label = this.label,
+			currentOptions = this.options;
+
 		if ( options.disabled !== undefined ) {
 			this.input.prop( "disabled", !!options.disabled );
-			this.widget().toggleClass( "ui-disabled", !!options.disabled );
+			this.widget().toggleClass( "ui-state-disabled", !!options.disabled );
 		}
 		if ( options.mini !== undefined ) {
-			this.label.parent().toggleClass( "ui-mini", !!options.mini );
+			label.parent().toggleClass( "ui-mini", !!options.mini );
 		}
 		if ( options.theme !== undefined ) {
-			this.label.removeClass( "ui-btn-" + this.options.theme ).addClass( "ui-btn-" + options.theme );
+			label
+				.removeClass( "ui-btn-" + currentOptions.theme )
+				.addClass( "ui-btn-" + options.theme );
 		}
 		if ( options.wrapperClass !== undefined ) {
-			this.widget().removeClass( this.options.wrapperClass ).addClass( options.wrapperClass );
+			this.widget()
+				.removeClass( currentOptions.wrapperClass )
+				.addClass( options.wrapperClass );
 		}
-		if ( options.iconpos !== undefined && ( this.element.parents( "[data-" + $.mobile.ns + "type='horizontal']" ).length === 0 ) ) {
-			this.label.removeClass( "ui-btn-icon-" + this.options.iconpos ).addClass( "ui-btn-icon-" + options.iconpos );
+		if ( options.iconpos !== undefined &&
+			( this.element.parents( "[data-" + $.mobile.ns + "type='horizontal']" ).length === 0 ) ) {
+			label.removeClass( "ui-btn-icon-" + currentOptions.iconpos ).addClass( "ui-btn-icon-" + options.iconpos );
 		} else if ( this.element.parents( "[data-" + $.mobile.ns + "type='horizontal']" ).length !== 0 ){
-			this.label.removeClass( "ui-btn-icon-" + this.options.iconpos );
+			label.removeClass( "ui-btn-icon-" + currentOptions.iconpos );
 		}
 		this._super( options );
 	}
 
 }, $.mobile.behaviors.formReset ) );
-
-$.mobile.checkboxradio.initSelector = "input:not( :jqmData(role='flipswitch' ) )[type='checkbox'],input[type='radio']:not( :jqmData(role='flipswitch' ))";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.checkboxradio" );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

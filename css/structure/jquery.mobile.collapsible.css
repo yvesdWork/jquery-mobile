@@ -1,12 +1,9 @@
 .ui-collapsible {
-	margin: .5em -1em;
+	margin: 0 -1em;
 }
 .ui-collapsible-inset,
 .ui-collapsible-set {
 	margin: .5em 0;
-}
-.ui-collapsible + .ui-collapsible {
-	margin-top: -.5em;
 }
 .ui-collapsible-heading {
 	display: block;
@@ -44,16 +41,21 @@
 .ui-collapsible-content {
 	display: block;
 	margin: 0;	
-	padding: .625em 1em;
+	padding: .5em 1em;
+}
+.ui-collapsible-themed-content .ui-collapsible-content {
 	border-left-width: 0;
 	border-right-width: 0;
 	border-top-width: 0;
-	background-image: none;
+	border-bottom-width: 1px;
+	border-style: solid;
+}
+.ui-collapsible-inset.ui-collapsible-themed-content .ui-collapsible-content {
+	border-left-width: 1px;
+	border-right-width: 1px;
 }
 .ui-collapsible-inset .ui-collapsible-content {
 	margin: 0;
-	border-right-width: 1px;
-	border-left-width: 1px;
 }
 .ui-collapsible-content-collapsed {
 	display: none;

@@ -19,6 +19,7 @@
 @-moz-document url-prefix() {
 	.ui-mobile fieldset {
 		display: table-column;
+		vertical-align: middle;
 	}
 }
 
@@ -175,6 +176,10 @@ div.ui-mobile-viewport {
 	border-style: solid;
 	position: relative;
 }
+.ui-header:empty,
+.ui-footer:empty {
+	min-height: 2.6875em;
+}
 .ui-header .ui-title,
 .ui-footer .ui-title {
 	font-size: 1em;
@@ -245,9 +250,6 @@ div.ui-mobile-viewport {
 .ui-mini .ui-btn {
 	font-size: inherit;
 }
-.ui-mini .ui-controlgroup-label {
-	font-size: 16px;
-}
 /* Make buttons in toolbars default to mini and inline. */
 .ui-header .ui-btn,
 .ui-footer .ui-btn {
@@ -275,8 +277,7 @@ div.ui-mobile-viewport {
 .ui-btn-icon-left {
 	padding-left: 2.5em;
 }
-.ui-btn-icon-right,
-.ui-listview > li > .ui-btn[class*="ui-icon-"] {
+.ui-btn-icon-right {
 	padding-right: 2.5em;
 }
 .ui-btn-icon-top {
@@ -292,7 +293,11 @@ div.ui-mobile-viewport {
 	padding-left: .3125em;
 	padding-right: .3125em;
 }
-.ui-btn[class*="ui-icon-"]:after {
+.ui-btn-icon-left:after,
+.ui-btn-icon-right:after,
+.ui-btn-icon-top:after,
+.ui-btn-icon-bottom:after,
+.ui-btn-icon-notext:after {
 	content: "";
 	position: absolute;
 	display: block;
@@ -301,16 +306,14 @@ div.ui-mobile-viewport {
 }
 .ui-btn-icon-notext:after,
 .ui-btn-icon-left:after,
-.ui-btn-icon-right:after,
-.ui-listview > li > .ui-btn[class*="ui-icon-"]:after {
+.ui-btn-icon-right:after {
 	top: 50%;
 	margin-top: -11px;
 }
 .ui-btn-icon-left:after {
 	left: .5625em;
 }
-.ui-btn-icon-right:after,
-.ui-listview > li > .ui-btn[class*="ui-icon-"]:after {
+.ui-btn-icon-right:after {
 	right: .5625em;
 }
 .ui-mini.ui-btn-icon-left:after,
@@ -365,6 +368,31 @@ div.ui-mobile-viewport {
 	right: .3125em;
 }
 
+/* Button elements */
+button.ui-btn,
+.ui-controlgroup-controls button.ui-btn-icon-notext {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	width: 100%;
+}
+button.ui-btn-inline {
+	width: auto;
+}
+/* Firefox adds a 1px border in a button element. We negate this to make sure they have the same height as other buttons in controlgroups. */
+button.ui-btn::-moz-focus-inner {
+	border: 0;
+}
+button.ui-btn-icon-notext,
+.ui-controlgroup-horizontal .ui-controlgroup-controls button.ui-btn {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	width: 1.75em;
+}
+
 /* Form labels */
 .ui-mobile label,
 .ui-controlgroup-label {
@@ -373,6 +401,7 @@ div.ui-mobile-viewport {
 }
 
 /* Accessible content hiding */
+/* ui-hide-label deprecated in 1.4. TODO: Remove in 1.5 */
 .ui-hide-label > label,
 .ui-hide-label .ui-controlgroup-label,
 .ui-hide-label .ui-rangeslider label,

@@ -2,6 +2,7 @@
 //>>description: Links options present in the widget to be filtered to the input
 //>>label: Filterable-widgetlink
 //>>group: Widgets
+//>>css.structure: ../css/structure/jquery.mobile.filterable.css
 
 define( [
 	"jquery",
@@ -73,6 +74,10 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 
 		if ( !!this._widget ) {
 			this._syncTextInputOptions( this._widget.options );
+			if ( this._widget.widgetName === "listview" ) {
+				this._widget.options.hidedividers = true;
+				this._widget.element.listview( "refresh" );
+			}
 		}
 
 		return !!this._widget;
@@ -121,7 +126,7 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 
 		this._super( selector );
 
-		if ( this._search && updatePlaceholder ) {
+		if ( this._isSearchInternal() && updatePlaceholder ) {
 			this._search.attr( "placeholder", this.options.filterPlaceholder );
 		}
 	},
@@ -131,7 +136,7 @@ $.widget( "mobile.filterable", $.mobile.filterable, {
 
 		// Need to set the filterPlaceholder after having established the search input
 		if ( options.filterPlaceholder !== undefined ) {
-			if ( this._search ) {
+			if ( this._isSearchInternal() ) {
 				this._search.attr( "placeholder", options.filterPlaceholder );
 			}
 		}

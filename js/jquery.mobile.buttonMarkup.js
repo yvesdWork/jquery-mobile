@@ -2,11 +2,13 @@
 //>>description: Applies button styling to links
 //>>label: Buttons: Link-based
 //>>group: Forms
-//>>css.structure: ../css/structure/jquery.mobile.button.css
+//>>css.structure: ../css/structure/jquery.mobile.core.css
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
-define( [ "jquery", "./jquery.mobile.core", "./jquery.mobile.registry" ], function( jQuery ) {
+define( [ "jquery", "./jquery.mobile.core" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
+
+// buttonMarkup is deprecated as of 1.4.0 and will be removed in 1.5.0.
 
 (function( $, undefined ) {
 "use strict";
@@ -28,7 +30,8 @@ var reverseBoolOptionMap = {
 		var ret = $.mobile.getAttribute.apply( this, arguments );
 
 		return ( ret == null ? undefined : ret );
-	};
+	},
+	capitalLettersRE = /[A-Z]/g;
 
 // optionsToClasses:
 // @options: A complete set of options to convert to class names.
@@ -164,6 +167,10 @@ function classNameToOptions( classes ) {
 	};
 }
 
+function camelCase2Hyphenated( c ) {
+	return "-" + c.toLowerCase();
+}
+
 // $.fn.buttonMarkup:
 // DOM: gets/sets .className
 //
@@ -211,9 +218,8 @@ $.fn.buttonMarkup = function( options, overwriteClasses ) {
 			for ( optionKey in defaults ) {
 				if ( retrievedOptions[ optionKey ] === undefined ) {
 					retrievedOptions[ optionKey ] = getAttrFixed( el,
-						optionKey.replace( /[A-Z]/g, function( c ) {
-								return "-" + c.toLowerCase();
-						}), true );
+						optionKey.replace( capitalLettersRE, camelCase2Hyphenated )
+					);
 				}
 			}
 		}
@@ -232,7 +238,9 @@ $.fn.buttonMarkup = function( options, overwriteClasses ) {
 
 			// ... and re-apply any unrecognized classes that were found
 			data.unknownClasses ).join( " " );
-		el.setAttribute( "role", "button" );
+		if ( el.tagName.toLowerCase() !== "button" ) {
+			el.setAttribute( "role", "button" );
+		}
 	}
 
 	return this;
@@ -251,10 +259,8 @@ $.fn.buttonMarkup.defaults = {
 	mini: false
 };
 
-//links in bars, or those with data-role become buttons
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.buttonmarkup", undefined, function( target ) {
-	$( "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button", target ).buttonMarkup();
+$.extend( $.fn.buttonMarkup, {
+	initSelector: "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button"
 });
 
 })( jQuery );

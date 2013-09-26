@@ -61,7 +61,7 @@ $.widget( "mobile.table", $.mobile.table, {
 		// so it can be called on refresh, too
 
 		// update column toggles on resize
-		this._on( $.mobile.window, {
+		this._on( this.window, {
 			throttledresize: "_setToggleState"
 		});
 	},
@@ -85,14 +85,17 @@ $.widget( "mobile.table", $.mobile.table, {
 		// create the hide/show toggles
 		this.headers.not( "td" ).each( function() {
 			var header = $( this ),
-				priority = $.mobile.getAttribute( this, "priority", true ),
+				priority = $.mobile.getAttribute( this, "priority" ),
 				cells = header.add( header.jqmData( "cells" ) );
 
 			if( priority ) {
 				cells.addClass( opts.classes.priorityPrefix + priority );
 
 				if ( !keep ) {
-					$("<label><input type='checkbox' checked />" + header.text() + "</label>" )
+					$("<label><input type='checkbox' checked />" +
+						( header.children( "abbr" ).first().attr( "title" ) ||
+							header.text() ) +
+						"</label>" )
 						.appendTo( menu )
 						.children( 0 )
 						.jqmData( "cells", cells )
@@ -136,7 +139,7 @@ $.widget( "mobile.table", $.mobile.table, {
 			table = this.element,
 			opts = this.options,
 			ns = $.mobile.ns,
-			fragment = $.mobile.document[ 0 ].createDocumentFragment();
+			fragment = this.document[ 0 ].createDocumentFragment();
 
 		id = this._id() + "-popup";
 		menuButton = $( "<a role='button' href='#" + id + "' " +
@@ -155,7 +158,7 @@ $.widget( "mobile.table", $.mobile.table, {
 		fragment.appendChild( menuButton[ 0 ] );
 		table.before( fragment );
 
-		popup.popup();
+		popup.popup().enhanceWithin();
 
 		return menu;
 	},

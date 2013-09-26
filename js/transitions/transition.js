@@ -2,7 +2,7 @@
 //>>description: Animated page change base constructor and logic
 //>>label: Transition Core
 //>>group: Transitions
-//>>css.structure: ../css/structure/jquery.mobile.transition.css
+//>>css.structure: ../css/structure/jquery.mobile.transition.css, ../css/structure/jquery.mobile.transition.fade.css
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
 define( [ "jquery",
@@ -59,13 +59,15 @@ define( [ "jquery",
 			if ( $.mobile.window.scrollTop() !== this.toScroll ) {
 				this.scrollPage();
 			}
-
+			if( !this.sequential ){
+				this.$to.addClass( $.mobile.activePageClass );
+			}
 			this.deferred.resolve( this.name, this.reverse, this.$to, this.$from, true );
 		},
 
-		doneOut: function( screenHeight, reverseClass, none ) {
+		doneOut: function( screenHeight, reverseClass, none, preventFocus ) {
 			this.beforeDoneOut();
-			this.startIn( screenHeight, reverseClass, none );
+			this.startIn( screenHeight, reverseClass, none, preventFocus );
 		},
 
 		hideIn: function( callback ) {
@@ -90,12 +92,14 @@ define( [ "jquery",
 			}, 150 );
 		},
 
-		startIn: function( screenHeight, reverseClass, none ) {
+		startIn: function( screenHeight, reverseClass, none, preventFocus ) {
 			this.hideIn(function() {
 				this.$to.addClass( $.mobile.activePageClass + this.toPreClass );
 
 				// Send focus to page as it is now display: block
-				$.mobile.focusPage( this.$to );
+				if( !preventFocus ){
+					$.mobile.focusPage( this.$to );
+				}
 
 				// Set to page height
 				this.$to.height( screenHeight + this.toScroll );
@@ -145,15 +149,15 @@ define( [ "jquery",
 			var reverseClass = this.reverse ? " reverse" : "",
 				screenHeight = $.mobile.getScreenHeight(),
 				maxTransitionOverride = $.mobile.maxTransitionWidth !== false && $.mobile.window.width() > $.mobile.maxTransitionWidth,
-				none = !$.support.cssTransitions || maxTransitionOverride || !this.name || this.name === "none" || Math.max( $.mobile.window.scrollTop(), this.toScroll ) > $.mobile.getMaxScrollForTransition();
+				none = !$.support.cssTransitions || !$.support.cssAnimations || maxTransitionOverride || !this.name || this.name === "none" || Math.max( $.mobile.window.scrollTop(), this.toScroll ) > $.mobile.getMaxScrollForTransition();
 
-			this.toScroll = $.mobile.urlHistory.getActive().lastScroll || $.mobile.defaultHomeScroll;
+			this.toScroll = $.mobile.navigate.history.getActive().lastScroll || $.mobile.defaultHomeScroll;
 			this.toggleViewportClass();
 
 			if ( this.$from && !none ) {
 				this.startOut( screenHeight, reverseClass, none );
 			} else {
-				this.doneOut( screenHeight, reverseClass, none );
+				this.doneOut( screenHeight, reverseClass, none, true );
 			}
 
 			return this.deferred.promise();

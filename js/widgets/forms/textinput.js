@@ -5,16 +5,17 @@
 //>>css.structure: ../css/structure/jquery.mobile.forms.textinput.css
 //>>css.theme: ../css/themes/default/jquery.mobile.theme.css
 
-define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.degradeInputs", "../../jquery.mobile.zoom", "../../jquery.mobile.registry" ], function( jQuery ) {
+define( [ "jquery", "../../jquery.mobile.core", "../../jquery.mobile.widget", "../../jquery.mobile.degradeInputs", "../../jquery.mobile.zoom" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 
 $.widget( "mobile.textinput", {
+	initSelector: "input[type='text'], input[type='search'], :jqmData(type='search'), input[type='number'], :jqmData(type='number'), input[type='password'], input[type='email'], input[type='url'], input[type='tel'], textarea, input[type='time'], input[type='date'], input[type='month'], input[type='week'], input[type='datetime'], input[type='datetime-local'], input[type='color'], input:not([type]), input[type='file']",
+
 	options: {
 		theme: null,
 		corners: true,
 		mini: false,
-		inset: true,
 		// This option defaults to true on iOS devices.
 		preventFocusZoom: /iPhone|iPad|iPod/.test( navigator.platform ) && navigator.userAgent.indexOf( "AppleWebKit" ) > -1,
 		wrapperClass: "",
@@ -23,25 +24,29 @@ $.widget( "mobile.textinput", {
 
 	_create: function() {
 
-		var o = this.options,
+		var options = this.options,
 			isSearch = this.element.is( "[type='search'], :jqmData(type='search')" ),
 			isTextarea = this.element[ 0 ].tagName === "TEXTAREA",
-			inputNeedsWrap = ((this.element.is( "input" ) || this.element.is( "[data-" + ( $.mobile.ns || "" ) + "type='search']" ) ) && !this.element.is( "[data-" + ( $.mobile.ns || "" ) + "type='range']" ));
+			isRange = this.element.is( "[data-" + ( $.mobile.ns || "" ) + "type='range']" ),
+			inputNeedsWrap = ( (this.element.is( "input" ) ||
+				this.element.is( "[data-" + ( $.mobile.ns || "" ) + "type='search']" ) ) &&
+					!isRange );
 			
 		$.extend( this, {
-			themeclass: "ui-body-" + ( ( o.theme === null ) ? "inherit" : o.theme ),
+			classes: this._classesFromOptions(),
 			isSearch: isSearch,
 			isTextarea: isTextarea,
+			isRange: isRange,
 			inputNeedsWrap: inputNeedsWrap
 		});
 
 		this._autoCorrect();
 
 		if ( this.element[ 0 ].disabled ) {
-			this.options.disabled = true;
+			options.disabled = true;
 		}
 
-		if ( !o.enhanced ) {
+		if ( !options.enhanced ) {
 			this._enhance();
 		}
 
@@ -59,38 +64,55 @@ $.widget( "mobile.textinput", {
 	},
 
 	_enhance: function() {
+		var elementClasses = [];
 
 		if ( this.isTextarea ) {
-			this.element.addClass( "ui-input-text" );
+			elementClasses.push( "ui-input-text" );
 		}
 
-		if ( this.element.is( "textarea, [data-" + ( $.mobile.ns || "" ) + "type='range']" ) ) {
-			this.element.addClass( "ui-shadow-inset" );
-			this._setOptions( this.options );
+		if ( this.isTextarea || this.isRange ) {
+			elementClasses.push( "ui-shadow-inset" );
 		}
 
 		//"search" and "text" input widgets
 		if ( this.inputNeedsWrap ) {
 			this.element.wrap( this._wrap() );
+		} else {
+			elementClasses = elementClasses.concat( this.classes );
 		}
 
+		this.element.addClass( elementClasses.join( " " ) );
 	},
 
 	widget: function() {
 		return ( this.inputNeedsWrap ) ? this.element.parent() : this.element;
 	},
 
-	_wrap: function() {
-		var opts = this.options;
+	_classesFromOptions: function() {
+		var options = this.options,
+			classes = [];
 
+		classes.push( "ui-body-" + ( ( options.theme === null ) ? "inherit" : options.theme ) );
+		if ( options.corners ) {
+			classes.push( "ui-corner-all" );
+		}
+		if ( options.mini ) {
+			classes.push( "ui-mini" );
+		}
+		if ( options.disabled ) {
+			classes.push( "ui-state-disabled" );
+		}
+		if ( options.wrapperClass ) {
+			classes.push( options.wrapperClass );
+		}
+
+		return classes;
+	},
+
+	_wrap: function() {
 		return $( "<div class='" +
 			( this.isSearch ? "ui-input-search " : "ui-input-text " ) +
-			"ui-body-" + ( ( opts.theme === null ) ? "inherit" : opts.theme ) + " " +
-			( opts.inset ? "ui-input-inset " : "" ) +
-			( opts.corners ? "ui-corner-all " : "" ) +
-			( opts.mini ? "ui-mini " : "" ) +
-			( opts.disabled ? "ui-state-disabled " : "" ) +
-			( opts.wrapperClass !== "" ? opts.wrapperClass + " " : "" ) +
+			this.classes.join( " " ) + " " +
 			"ui-shadow-inset'></div>" );
 	},
 
@@ -101,8 +123,11 @@ $.widget( "mobile.textinput", {
 		//      that we test for the presence of the feature by looking for
 		//      the autocorrect property on the input element. We currently
 		//      have no test for iOS 5 or newer so we're temporarily using
-		//      the touchOverflow support flag for jQM 1.0. Yes, I feel dirty. - jblas
-		if ( typeof this.element[0].autocorrect !== "undefined" && !$.support.touchOverflow ) {
+		//      the touchOverflow support flag for jQM 1.0. Yes, I feel dirty.
+		//      - jblas
+		if ( typeof this.element[0].autocorrect !== "undefined" &&
+			!$.support.touchOverflow ) {
+
 			// Set the attribute instead of the property just in case there
 			// is code that attempts to make modifications via HTML.
 			this.element[0].setAttribute( "autocorrect", "off" );
@@ -111,50 +136,39 @@ $.widget( "mobile.textinput", {
 	},
 
 	_handleBlur: function() {
-		this.element.removeClass( $.mobile.focusClass );
+		this.widget().removeClass( $.mobile.focusClass );
 		if ( this.options.preventFocusZoom ) {
 			$.mobile.zoom.enable( true );
 		}
 	},
 
 	_handleFocus: function() {
-		// In many situations, iOS will zoom into the input upon tap, this prevents that from happening
+		// In many situations, iOS will zoom into the input upon tap, this
+		// prevents that from happening
 		if ( this.options.preventFocusZoom ) {
 			$.mobile.zoom.disable( true );
 		}
-		this.element.addClass( $.mobile.focusClass );
+		this.widget().addClass( $.mobile.focusClass );
 	},
 
 	_setOptions: function ( options ) {
-		var themeclass,
-			outer = this.widget();
+		var outer = this.widget();
 
 		this._super( options );
 
-		if ( options.theme !== undefined ) {
-			themeclass = "ui-body-" + ( ( options.theme === null ) ? "inherit" : options.theme );
-			outer.removeClass( this.themeclass ).addClass( themeclass );
-			this.themeclass = themeclass;
-		}
+		if ( !( options.disabled === undefined &&
+			options.mini === undefined &&
+			options.corners === undefined &&
+			options.theme === undefined &&
+			options.wrapperClass === undefined ) ) {
 
-		if ( options.inset !== undefined && !this.isTextarea ) {
-			this.options.inset = options.inset;
-			outer
-				.toggleClass( "ui-input-inset", options.inset )
-				.toggleClass( "ui-corner-all", options.inset && this.options.corners );
-		}
-
-		if ( options.corners !== undefined ) {
-			outer.toggleClass( "ui-corner-all", options.corners && this.options.inset );
-		}
-
-		if ( options.mini !== undefined ) {
-			outer.removeClass( "ui-mini" ).addClass( options.mini ? "ui-mini" : "" );
+			outer.removeClass( this.classes.join( " " ) );
+			this.classes = this._classesFromOptions();
+			outer.addClass( this.classes.join( " " ) );
 		}
 
 		if ( options.disabled !== undefined ) {
 			this.element.prop( "disabled", !!options.disabled );
-			outer.toggleClass( "ui-disabled", !!options.disabled );
 		}
 	},
 
@@ -165,14 +179,9 @@ $.widget( "mobile.textinput", {
 		if ( this.inputNeedsWrap ) {
 			this.element.unwrap();
 		}
-		this.element.removeClass( "ui-input-text " + this.themeclass + " ui-corner-all ui-mini ui-disabled" );
+		this.element.removeClass( "ui-input-text " + this.classes.join( " " ) );
 	}
 });
-
-$.mobile.textinput.initSelector = "input[type='text'], input[type='search'], :jqmData(type='search'), input[type='number'], :jqmData(type='number'), input[type='password'], input[type='email'], input[type='url'], input[type='tel'], textarea, input[type='time'], input[type='date'], input[type='month'], input[type='week'], input[type='datetime'], input[type='datetime-local'], input[type='color'], input:not([type]), input[type='file']";
-
-//auto self-init widgets
-$.mobile._enhancer.add( "mobile.textinput" );
 
 })( jQuery );
 //>>excludeStart("jqmBuildExclude", pragmas.jqmBuildExclude);

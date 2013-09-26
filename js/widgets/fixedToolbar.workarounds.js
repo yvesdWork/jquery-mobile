@@ -10,7 +10,9 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 
 		_create: function() {
 			this._super();
-			this._workarounds();
+			if ( this.element.hasClass( "ui-" + this.role + "-fixed" ) ) {
+				this._workarounds();
+			}
 		},
 
 		//check the browser and version and run needed workarounds
@@ -47,9 +49,9 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 		_viewportOffset: function() {
 			var $el = this.element,
 				header = $el.hasClass( "ui-header" ),
-				offset = Math.abs( $el.offset().top - $.mobile.window.scrollTop() );
+				offset = Math.abs( $el.offset().top - this.window.scrollTop() );
 			if ( !header ) {
-				offset = Math.round( offset - $.mobile.window.height() + $el.outerHeight() ) - 60;
+				offset = Math.round( offset - this.window.height() + $el.outerHeight() ) - 60;
 			}
 			return offset;
 		},
@@ -58,7 +60,7 @@ define( [ "jquery", "../jquery.mobile.widget", "../jquery.mobile.core", "../jque
 		_bindScrollWorkaround: function() {
 			var self = this;
 			//bind to scrollstop and check if the toolbars are correctly positioned
-			this._on( $.mobile.window, { scrollstop: function() {
+			this._on( this.window, { scrollstop: function() {
 				var viewportOffset = self._viewportOffset();
 				//check if the header is visible and if its in the right place
 				if ( viewportOffset > 2 && self._visible ) {
