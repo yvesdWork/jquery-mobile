@@ -17,12 +17,12 @@
 
 	<div data-role="header" class="jqm-header">
 		<h2><a href="../" title="jQuery Mobile Demos home"><img src="../_assets/img/jquery-logo.png" alt="jQuery Mobile"></a></h2>
-		<p>Demos <span class="jqm-version"></span></p>
-		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left" role="button">Menu</a>
-		<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right" role="button">Search</a>
+		<p><span class="jqm-version"></span> Demos</p>
+		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+		<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
 	</div><!-- /header -->
 
-	<div data-role="content" class="jqm-content">
+	<div role="main" class="ui-content jqm-content">
 
 		<h1>Filterable</h1>
 
@@ -102,11 +102,11 @@
 					<input data-type="search" id="filterControlgroup-input"></input>
 				</form>
 				<div data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
-					<a href="#" class="ui-btn ui-shadow ui-corner-all" role="button">Button 1</a>
-					<a href="#" class="ui-btn ui-shadow ui-corner-all" role="button">Button 2</a>
-					<a href="#" class="ui-btn ui-shadow ui-corner-all" role="button" data-filtertext="some text">Button 3</a>
-					<a href="#" class="ui-btn ui-shadow ui-corner-all" role="button">Button 4</a>
-					<a href="#" class="ui-btn ui-shadow ui-corner-all" role="button">Button 5</a>
+					<a href="#" class="ui-btn ui-shadow ui-corner-all">Button 1</a>
+					<a href="#" class="ui-btn ui-shadow ui-corner-all">Button 2</a>
+					<a href="#" class="ui-btn ui-shadow ui-corner-all" data-filtertext="some text">Button 3</a>
+					<a href="#" class="ui-btn ui-shadow ui-corner-all">Button 4</a>
+					<a href="#" class="ui-btn ui-shadow ui-corner-all">Button 5</a>
 				</div>
 			</div>
 
@@ -130,7 +130,76 @@
 					<option value="J">Option J</option>
 				</select>
 			</div>
-
+		<h2>Filter Collapsible Set</h2>
+		<div data-demo-html="true">
+			<form>
+				<input data-type="search" id="searchForCollapsibleSet"></input>
+			</form>
+				<div data-role="collapsible-set" data-filter="true" data-inset="true" data-inset="true" id="collapsiblesetForFilter" data-input="#searchForCollapsibleSet">
+					<div data-role="collapsible" data-filtertext="Animals">
+						<h3>Animals</h3>
+						<ul data-role="listview" data-inset="false">
+							<li>Cats</li>
+							<li>Dogs</li>
+							<li>Lizards</li>
+							<li>Snakes</li>
+						</ul>
+					</div>
+					<div data-role="collapsible" data-filtertext="Cars">
+						<h3>Cars</h3>
+						<ul data-role="listview" data-inset="false">
+							<li>Acura</li>
+							<li>Audi</li>
+							<li>BMW</li>
+							<li>Cadillac</li>
+						</ul>
+					</div>
+					<div data-role="collapsible" data-filtertext="Planets">
+						<h3>Planets</h3>
+						<ul data-role="listview" data-inset="false">
+							<li>Earth</li>
+							<li>Jupiter</li>
+							<li>Mars</li>
+							<li>Mercury</li>
+						</ul>
+					</div>
+				</div>
+			</div><!--/demo-html -->
+		<h2>Filter Collapsible Set and collapsible children</h2>
+		<div data-demo-html="true">
+			<form>
+				<input data-type="search" id="searchForCollapsibleSetChildren"></input>
+			</form>
+				<div data-role="collapsible-set" data-filter="true" data-children="> div, > div div ul li" data-inset="true" data-inset="true" id="collapsiblesetForFilterChildren" data-input="#searchForCollapsibleSetChildren">
+					<div data-role="collapsible" data-filtertext="Animals Cats Dogs Lizards snakes">
+						<h3>Animals</h3>
+						<ul data-role="listview" data-inset="false">
+							<li data-filtertext="Animals Cats">Cats</li>
+							<li data-filtertext="Animals Dogs">Dogs</li>
+							<li data-filtertext="Animals Lizards">Lizards</li>
+							<li data-filtertext="Animals Snakes">Snakes</li>
+						</ul>
+					</div>
+					<div data-role="collapsible" data-filtertext="Cars Acura Audi BMW Cadillac">
+						<h3>Cars</h3>
+						<ul data-role="listview" data-inset="false">
+							<li data-filtertext="Cars Acura">Acura</li>
+							<li data-filtertext="Cars Audi">Audi</li>
+							<li data-filtertext="Cars BMW">BMW</li>
+							<li data-filtertext="Cars Cadillac">Cadillac</li>
+						</ul>
+					</div>
+					<div data-role="collapsible" data-filtertext="Planets Earth Jupiter Mars Mercury">
+						<h3>Planets</h3>
+						<ul data-role="listview" data-inset="false">
+							<li data-filtertext="Planets Acura">Earth</li>
+							<li data-filtertext="Planets Jupiter">Jupiter</li>
+							<li data-filtertext="Planets Mars">Mars</li>
+							<li data-filtertext="Planets Mercury">Mercury</li>
+						</ul>
+					</div>
+				</div>
+			</div><!--/demo-html -->
 		<h2>Filter Anything</h2>
 		<p>The widget can be used for filtering on any element containing other elements, like a <code>div</code> containing <code>p</code> elements.
 			</p>
@@ -154,8 +223,8 @@
 			</p>
 
 			<div data-demo-html="true">
-				<ul data-role="listview" 
-					data-filter="true" 
+				<ul data-role="listview"
+					data-filter="true"
 					data-filter-placeholder="Find cars..."
 					data-filter-theme="a"
 					data-inset="true">
@@ -169,20 +238,20 @@
 
 		<h2>Filter Reveal</h2>
 		<p>
-			The filter reveal feature makes it easy to build a simple autocomplete 
+			The filter reveal feature makes it easy to build a simple autocomplete
 			with local data. When a filter has the <code>data-filter-reveal="true"
-			</code> attribute, it will auto-hide all the list items when the search 
-			field is blank. The <code>data-filter-placeholder</code> attribute can be 
-			added to specify the placeholder text for the filter. If you need to search 
-			against a long list of values, we provide a way to create a filter with a 
-			<a href="../autocomplete/autocomplete-remote.php" data-ajax="false">remote 
+			</code> attribute, it will auto-hide all the list items when the search
+			field is blank. The <code>data-filter-placeholder</code> attribute can be
+			added to specify the placeholder text for the filter. If you need to search
+			against a long list of values, we provide a way to create a filter with a
+			<a href="../listview-autocomplete-remote/" data-ajax="false">remote
 			data source</a>.
 			</p>
 
 			<div data-demo-html="true">
-				<ul data-role="listview" 
-					data-filter="true" 
-					data-filter-reveal="true" 
+				<ul data-role="listview"
+					data-filter="true"
+					data-filter-reveal="true"
 					data-filter-placeholder="Search fruits..."
 					data-inset="true">
 					<li><a href="#">Apple</a></li>
@@ -200,8 +269,8 @@
 
 		<p>To set a custom filtering function that will become the new default for all filterable widgets, override the <code>filterCallback</code> option in the filterable widget prototype in a "mobileinit" signal handler:</p>
 
-<pre><code>$.mobile.document.one( "mobileinit", function() {
-	$.mobile.filterable.prototype.filterCallback = function( index, searchValue ) {
+<pre><code>$( document ).one( "mobileinit", function() {
+	$.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
 		// In this function the keyword "this" refers to the element for which the
 		// code must decide whether it is to be filtered or not.
 		// A return value of true indicates that the element referred to by the
@@ -231,7 +300,7 @@
 
 <pre><code>$( ".selector" ).on( "filterablebeforefilter", function( e, data ) {
 		var value;
-		
+
 		e.preventDefault();
 		value = data.input.value;
 		// trigger own request to database
@@ -261,9 +330,9 @@
 				data-input="#pre-rendered-example-input"
 				class="ui-controlgroup ui-controlgroup-vertical ui-corner-all">
 				<div class="ui-controlgroup-controls">
-					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-shadow ui-screen-hidden" role="button">Acura</a>
-					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-first-child ui-shadow ui-last-child" role="button">Renault</a>
-					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-shadow ui-screen-hidden" role="button">Hyundai</a>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-shadow ui-screen-hidden">Acura</a>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-first-child ui-shadow ui-last-child">Renault</a>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-shadow ui-screen-hidden">Hyundai</a>
 				</div>
 			</div>
 		</form>
@@ -271,13 +340,16 @@
 
 	</div><!-- /content -->
 
+	<?php include( '../jqm-navmenu.php' ); ?>
+
 	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
 		<p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
 		<p>Copyright 2013 The jQuery Foundation</p>
 	</div><!-- /footer -->
 
-<?php include( '../jqm-panels.php' ); ?>
+<?php include( '../jqm-search.php' ); ?>
 
 </div><!-- /page -->
+
 </body>
 </html>

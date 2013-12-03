@@ -23,7 +23,7 @@ $.widget( "mobile.collapsibleset", $.extend( {
 	initSelector: ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')",
 
 	options: $.extend( {
-		enhanced: false,
+		enhanced: false
 	}, $.mobile.collapsible.defaults ),
 
 	_handleCollapsibleExpand: function( event ) {
@@ -103,7 +103,7 @@ $.widget( "mobile.collapsibleset", $.extend( {
 		this._removeFirstLastClasses( el.children( childCollapsiblesSelector ) );
 		el
 			.removeClass( "ui-collapsible-set ui-corner-all " +
-				this._themeClassFromOption( "ui-group-theme", this.options.theme ) )
+				this._themeClassFromOption( "ui-group-theme-", this.options.theme ) )
 			.children( ":mobile-collapsible" )
 			.collapsible( "destroy" );
 	},

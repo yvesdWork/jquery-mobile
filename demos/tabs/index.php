@@ -11,24 +11,37 @@
 	<script src="../../js/jquery.js"></script>
 	<script src="../_assets/js/"></script>
 	<script src="../../js/"></script>
+	<style id="inset-tablist">
+		.tablist-left {
+			width: 25%;
+			display: inline-block;
+		}
+		.tablist-content {
+			width: 60%;
+			display: inline-block;
+			vertical-align: top;
+			margin-left: 5%;
+		}
+	</style>
 </head>
 <body>
 <div data-role="page" class="jqm-demos" data-quicklinks="true">
 
 	<div data-role="header" class="jqm-header">
 		<h2><a href="../" title="jQuery Mobile Demos home"><img src="../_assets/img/jquery-logo.png" alt="jQuery Mobile"></a></h2>
-		<p>Demos <span class="jqm-version"></span></p>
-		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left" role="button">Menu</a>
-		<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right" role="button">Search</a>
+		<p><span class="jqm-version"></span> Demos</p>
+		<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+		<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
 	</div><!-- /header -->
 
-	<div data-role="content" class="jqm-content">
+	<div role="main" class="ui-content jqm-content">
 
 		<h1>Tabs</h1>
 
 		<p>The jQuery mobile tabs widget is actually just an extension of the jQuery ui tabs widget and takes all the same options and methods</p>
 			</p>
 		<h2>Use navbar for tabs</h2>
+		<div data-demo-html="true">
 			<div data-role="tabs" id="tabs">
 		      <div data-role="navbar">
 			    <ul>
@@ -47,41 +60,47 @@
 		            <li><a href="#">BMW</a></li>
 		            <li><a href="#">Cadillac</a></li>
 		            <li><a href="#">Ferrari</a></li>
-		        </ul>      
+		        </ul>
 		      </div>
 		    </div>
+		</div>
+		<div data-demo-html="true" data-demo-css="#inset-tablist">
 		    <h2>Use inset listview for tabs</h2>
 		    <div data-role="tabs">
-		      	<ul data-role="listview" data-inset="true" class="tabs-list-left">
+		      	<ul data-role="listview" data-inset="true" class="tablist-left">
 			      <li><a href="#one" data-ajax="false">one</a></li>
 			      <li><a href="#two" data-ajax="false">two</a></li>
 			      <li><a href="ajax-content.php" data-ajax="false">three</a></li>
 			    </ul>
-			    <div id="one" class="ui-body-d tabs-list-content">
+			    <div id="one" class="ui-body-d tablist-content">
 		        <h1>First tab contents</h1>
 		      </div>
-		      
-		        <ul id="two" class="tabs-list-content" data-role="listview" data-inset="true">
+
+		        <ul id="two" class="tablist-content" data-role="listview" data-inset="true">
 		            <li><a href="#">Acura</a></li>
 		            <li><a href="#">Audi</a></li>
 		            <li><a href="#">BMW</a></li>
 		            <li><a href="#">Cadillac</a></li>
 		            <li><a href="#">Ferrari</a></li>
-		        </ul>      
-		      
+		        </ul>
+
 		    </div>
+		</div>
 		    <h2>Tabbed page content</h2>
 		    <p>You can also use tabs to swap out an enitre pages content <a data-ajax="false" href="tabbed-content.php">Tabbed Content Pages</a></p>
 
-		</div><!-- /content -->
+	</div><!-- /content -->
 
-		<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+	<?php include( '../jqm-navmenu.php' ); ?>
+
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
 		<p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
 		<p>Copyright 2013 The jQuery Foundation</p>
-		</div><!-- /footer -->
+	</div><!-- /footer -->
 
-	<?php include( '../jqm-panels.php' ); ?>
+<?php include( '../jqm-search.php' ); ?>
 
-	</div><!-- /page -->
-	</body>
-	</html>
+</div><!-- /page -->
+
+</body>
+</html>

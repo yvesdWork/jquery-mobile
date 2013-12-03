@@ -3,10 +3,9 @@
 //>>label: Link Classes
 //>>group: Utilities
 
-
 define( [ "jquery",
-	"jquery.mobile.core",
-	"navigation/path" ], function( jQuery ) {
+	"./jquery.mobile.core",
+	"./navigation/path" ], function( jQuery ) {
 //>>excludeEnd("jqmBuildExclude");
 (function( $, undefined ) {
 

@@ -14,18 +14,24 @@
 	    <style>
 	        #demo-borders .ui-collapsible .ui-collapsible-heading .ui-btn { border-top-width: 1px !important; }
 	    </style>
+	    <style id="textinput-controlgroup">
+			.controlgroup-textinput{
+				padding-top:.22em;
+				padding-bottom:.22em;
+			}
+	    </style>
 	</head>
 	<body>
 	<div data-role="page" class="jqm-demos" data-quicklinks="true">
 
 	    <div data-role="header" class="jqm-header">
 			<h2><a href="../" title="jQuery Mobile Demos home"><img src="../_assets/img/jquery-logo.png" alt="jQuery Mobile"></a></h2>
-		<p>Demos <span class="jqm-version"></span></p>
-	        <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left" role="button">Menu</a>
-	        <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right" role="button">Search</a>
+		<p><span class="jqm-version"></span> Demos</p>
+	        <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+	        <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
 		    </div><!-- /header -->
 
-	    <div data-role="content" class="jqm-content">
+	    <div role="main" class="ui-content jqm-content">
 
         <h1>Controlgroup</h1>
 
@@ -36,12 +42,12 @@
 
 			<div data-demo-html="true">
 				<div data-role="controlgroup">
-					<a href="#" role="button" class="ui-btn ui-corner-all">No icon</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all">No icon</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
 				</div>
 			</div><!--/demo-html -->
 
@@ -49,12 +55,12 @@
 
 			<div data-demo-html="true">
 				<div data-role="controlgroup" data-mini="true">
-					<a href="#" role="button" class="ui-btn ui-corner-all">No icon</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all">No icon</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
 				</div>
 			</div><!--/demo-html -->
 
@@ -62,21 +68,21 @@
 
 			<div data-demo-html="true">
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" role="button" class="ui-btn ui-corner-all">No icon</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
+					<a href="#" class="ui-btn ui-corner-all">No icon</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
 				</div>
 				<form>
 					<fieldset data-role="controlgroup" data-type="horizontal">
@@ -97,21 +103,21 @@
 
 			<div data-demo-html="true">
 				<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<a href="#" role="button" class="ui-btn ui-corner-all">No icon</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
+					<a href="#" class="ui-btn ui-corner-all">No icon</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
 				</div>
 				<div data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
-					<a href="#" role="button" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+					<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
 				</div>
 				<form>
 					<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
@@ -350,6 +356,31 @@
 					</form>
 				</div><!--/demo-html -->
 
+				<h2>Textinputs</h2>
+				<p>While textinputs are not officially supported by the controlgroup they can be made to work with some simple css.</p>
+				<p>To make this work you will need to add one css rule and use textinput's wrapperClass option to set two classes on the textinput wrapper.</p>
+				<div data-demo-html="true" data-demo-css="#textinput-controlgroup">
+					<label for="currency-controlgroup">Value</label>
+					<div data-role="controlgroup" data-type="horizontal">
+						<select>
+							<option>$</option>
+							<option>€</option>
+							<option>£</option>
+							<option>¥</option>
+							<option>₩</option>
+							<option>₹</option>
+						</select>
+						<input id="currency-controlgroup" type="text" data-wrapper-class="controlgroup-textinput ui-btn">
+						<button>.00</button>
+					</div>
+					<label for="search-control-group">Search</label>
+					<div data-role="controlgroup" data-type="horizontal">
+						<input type="text" id="search-control-group" data-wrapper-class="controlgroup-textinput ui-btn">
+						<button>Submit</button>
+						<button>Reset</button>
+					</div>
+				</div>
+
 		<h2>Pre-rendered markup</h2>
 		<p>You can supply pre-rendered markup for any controlgroup to save startup time. The example below illustrates the markup you have to provide for a pre-rendered controlgroup. Note that the widgets inside the controlgroup need not necessarily be pre-rendered.</p>
 		<div data-demo-html="true">
@@ -368,13 +399,16 @@
 
 	</div><!-- /content -->
 
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
-        <p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
-        <p>Copyright 2013 The jQuery Foundation</p>
-    </div><!-- /footer -->
+	<?php include( '../jqm-navmenu.php' ); ?>
 
-<?php include( '../jqm-panels.php' ); ?>
+	<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+		<p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
+		<p>Copyright 2013 The jQuery Foundation</p>
+	</div><!-- /footer -->
+
+<?php include( '../jqm-search.php' ); ?>
 
 </div><!-- /page -->
+
 </body>
 </html>
